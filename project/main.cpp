@@ -341,8 +341,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		//再生位置の取得
 		playbackPosition = audio->GetPlaybackPosition();
 		//再生位置の視認
-		ImGui::SliderFloat("Playback Position", &playbackPosition, 0.0f, duration);
-		//audio->SetPlaybackPosition(playbackPosition);
+		ImGui::SliderFloat("Playback Position", &playbackPosition, 0.0f, duration-1.0f);
+	//	audio->SetPlaybackPosition(playbackPosition);
 
 		//speed
 		static float speed = 1.0f;
