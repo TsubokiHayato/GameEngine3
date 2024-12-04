@@ -86,6 +86,18 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 #pragma endregion 基盤システムの初期化
 
 
+#pragma region ImGuiManagerの初期化
+#ifdef _DEBUG
+
+	//ImGuiの初期化
+	std::unique_ptr< ImGuiManager> imGuiManager = nullptr;
+	imGuiManager = std::make_unique<ImGuiManager>();
+	imGuiManager->Initialize(winApp, dxCommon);
+
+#endif // DEBUG
+
+#pragma endregion ImGuiManagerの初期化
+
 #pragma region TextureManegerの初期化
 	//テクスチャマネージャーの初期化
 	TextureManager::GetInstance()->Initialize(dxCommon);
@@ -115,18 +127,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	ModelManager::GetInstance()->LoadModel(modelFileNamePath2);
 
 #pragma endregion ModelManagerの初期化
-
-#pragma region ImGuiManagerの初期化
-#ifdef _DEBUG
-
-	//ImGuiの初期化
-	std::unique_ptr< ImGuiManager> imGuiManager = nullptr;
-	imGuiManager = std::make_unique<ImGuiManager>();
-	imGuiManager->Initialize(winApp, dxCommon);
-
-#endif // DEBUG
-
-#pragma endregion ImGuiManagerの初期化
 
 #pragma region AudioCommonの初期化
 	//オーディオ共通部
@@ -268,7 +268,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	object3d->SetCamera(camera);
 	object3d2->SetCamera(camera);
 
-	
+#pragma endregion cameraの初期化
 
 
 	//ウィンドウの×ボタンんが押されるまでループ
