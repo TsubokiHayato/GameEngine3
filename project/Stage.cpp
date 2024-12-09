@@ -6,6 +6,8 @@
 #include"WinApp.h"
 #include"DirectXCommon.h"
 #include"ImGuiManager.h"
+
+#include"MapChipField.h"
 Stage::~Stage()
 {
 //入力の削除
@@ -32,9 +34,6 @@ void Stage::Initialize(WinApp* winApp,DirectXCommon*dxCommon,Object3dCommon* obj
 #pragma endregion テクスチャの読み込み
 
 #pragma region ModelManagerの読み込み
-
-
-	
 
 	ModelManager::GetInstance()->LoadModel(modelFileNamePath);
 
@@ -130,15 +129,18 @@ void Stage::Initialize(WinApp* winApp,DirectXCommon*dxCommon,Object3dCommon* obj
 	modelBarrier = new Model();
 	modelBarrier->Initialize(modelCommon, modelDirectoryPath, modelFileNamePath);
 
-	objectBarrier->SetModel(modelBarrier);
+	
 	objectBarrier->SetModel(modelFileNamePath);
 
-	////////////////////////////////////////////////////////////////////////
-
-
-
+	
 #pragma endregion 3Dモデルの初期化
 
+
+
+	// Mapの生成
+	mapChipField_ = new MapChipField;
+	// Mapのよみこみ
+	mapChipField_->LoadMapChipCsv("Resources/stages/stage1.csv");
 
 }
 
@@ -213,7 +215,7 @@ void Stage::Update()
 		//audio->SetPlaybackPosition(playbackPosition);
 
 		//speed
-		static float speed = 1.0f;
+		static float speed = 0.0f;
 		ImGui::SliderFloat("Speed", &speed, 0.0f, 2.0f);
 		audio->SetPlaybackSpeed(speed);
 

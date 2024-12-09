@@ -63,6 +63,13 @@ private:
 	Vector3 modelPosition = { -1.0f,0.0f,0.0f };
 	Vector3 modelRotation = { 0.0f,0.0f,0.0f };
 	Vector3 modelScale = { 1.0f,1.0f,1.0f };
+
+
+	/*mapChip*/
+	MapChipField* mapChipField_ = nullptr;
+	//MapChipField* StageMapChip[6];
+
+
 	
 
 	//SEファイル名
