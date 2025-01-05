@@ -6,8 +6,7 @@
 #include"WinApp.h"
 #include"DirectXCommon.h"
 #include"ImGuiManager.h"
-
-#include"MapChipField.h"
+ 
 Stage::~Stage()
 {
 //入力の削除
@@ -24,7 +23,11 @@ Stage::~Stage()
 }
 void Stage::Initialize(WinApp* winApp,DirectXCommon*dxCommon,Object3dCommon* object3dCommon,ModelCommon*modelCommon,SpriteCommon* spriteCommon)
 {
-
+	this->winApp = winApp;
+	this->dxCommon = dxCommon;
+	this->object3dCommon = object3dCommon;
+	this->modelCommon = modelCommon;
+	this->spriteCommon = spriteCommon;
 
 #pragma region テクスチャの読み込み
 	
@@ -63,7 +66,7 @@ void Stage::Initialize(WinApp* winApp,DirectXCommon*dxCommon,Object3dCommon* obj
 	camera->SetTranslate(cameraPosition);
 	camera->setRotation(cameraRotation);
 	camera->setScale(cameraScale);
-	object3dCommon->SetDefaultCamera(camera);
+	this->object3dCommon->SetDefaultCamera(camera);
 
 
 #pragma endregion cameraの初期化
@@ -122,25 +125,20 @@ void Stage::Initialize(WinApp* winApp,DirectXCommon*dxCommon,Object3dCommon* obj
 #pragma region 3Dモデルの初期化
 	//オブジェクト3D
 	objectBarrier = new Object3d();
-	objectBarrier->Initialize(object3dCommon, winApp, dxCommon);
+	objectBarrier->Initialize(this->object3dCommon, this->winApp, this->dxCommon);
 
 	
 	//モデル
 	modelBarrier = new Model();
-	modelBarrier->Initialize(modelCommon, modelDirectoryPath, modelFileNamePath);
+	modelBarrier->Initialize(this->modelCommon, modelDirectoryPath, modelFileNamePath);
 
 	
 	objectBarrier->SetModel(modelFileNamePath);
 
 	
 #pragma endregion 3Dモデルの初期化
-
-
-
-	// Mapの生成
-	mapChipField_ = new MapChipField;
-	// Mapのよみこみ
-	mapChipField_->LoadMapChipCsv("Resources/stages/stage1.csv");
+	player = new Player;
+	player->Initialize(this->object3dCommon, this->modelCommon, this->dxCommon, this->winApp);
 
 }
 
@@ -201,6 +199,7 @@ void Stage::Update()
 		if (ImGui::Button("Resume")) {
 			audio->Resume();
 		}
+
 		//volume
 		static float volume = 0.1f;
 		ImGui::SliderFloat("Volume", &volume, 0.0f, 1.0f);
@@ -224,6 +223,7 @@ void Stage::Update()
 
 #endif // DEBUG
 
+		player->Update();
 
 		camera->SetTranslate(cameraPosition);
 		camera->setRotation(cameraRotation);
@@ -235,49 +235,51 @@ void Stage::Update()
 
 		
 
-		modelRotation.x -= 0.01f;
-		//modelRotation2.y -= 0.01f;
-		modelRotation.z -= 0.01f;
+		//modelRotation.x -= 0.01f;
+		////modelRotation2.y -= 0.01f;
+		//modelRotation.z -= 0.01f;
 
-		//オブジェクト3Dの更新
-		objectBarrier->Update();
+		////オブジェクト3Dの更新
+		//objectBarrier->Update();
 
-		objectBarrier->SetPosition(modelPosition);
-		objectBarrier->SetRotation(modelRotation);
-		objectBarrier->SetScale(modelScale);
+		//objectBarrier->SetPosition(modelPosition);
+		//objectBarrier->SetRotation(modelRotation);
+		//objectBarrier->SetScale(modelScale);
 
 
 
-		//スプライトの更新
-		for (Sprite* sprite : sprites) {
-			if (sprite) {
-				// ここでは各スプライトの位置や回転を更新する処理を行う
-				// 例: X軸方向に少しずつ移動させる
-				Vector2 currentPosition = sprite->GetPosition();
-				/*currentPosition.x = 100.0f;
-				currentPosition.y = 100.0f;*/
-				float currentRotation = sprite->GetRotation();
+		////スプライトの更新
+		//for (Sprite* sprite : sprites) {
+		//	if (sprite) {
+		//		// ここでは各スプライトの位置や回転を更新する処理を行う
+		//		// 例: X軸方向に少しずつ移動させる
+		//		Vector2 currentPosition = sprite->GetPosition();
+		//		/*currentPosition.x = 100.0f;
+		//		currentPosition.y = 100.0f;*/
+		//		float currentRotation = sprite->GetRotation();
 
-				sprite->SetPosition(currentPosition);
-				sprite->SetRotation(currentRotation);
-				sprite->SetTextureLeftTop(textureLeftTop);
-				sprite->SetFlipX(isFlipX_);
-				sprite->SetFlipY(isFlipY_);
-				sprite->SetGetIsAdjustTextureSize(isAdjustTextureSize);
+		//		sprite->SetPosition(currentPosition);
+		//		sprite->SetRotation(currentRotation);
+		//		sprite->SetTextureLeftTop(textureLeftTop);
+		//		sprite->SetFlipX(isFlipX_);
+		//		sprite->SetFlipY(isFlipY_);
+		//		sprite->SetGetIsAdjustTextureSize(isAdjustTextureSize);
 
-				sprite->Update();
-			}
-		}
+		//		sprite->Update();
+		//	}
+		//}
 
 }
 
 void Stage::Draw()
 {
-	objectBarrier->Draw();
+	/*objectBarrier->Draw();
 	for (Sprite* sprite : sprites) {
 		if (sprite) {
 			sprite->Draw();
 		}
-	}
+	}*/
+	  //  block->Draw();
 
+	player->Draw();
 }

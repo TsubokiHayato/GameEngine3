@@ -23,6 +23,7 @@
 #include <iostream>
 #include <algorithm>
 #include"stage.h"
+
 #undef min//minマクロを無効化
 #undef max//maxマクロを無効化
 

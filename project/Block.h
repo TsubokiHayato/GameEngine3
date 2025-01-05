@@ -3,6 +3,7 @@
 #include"Object3d.h"
 #include "Model.h"
 #include "MapChipField.h"
+#include"ModelManager.h"
 class Block
 {
 
@@ -12,33 +13,32 @@ public:
 	void Draw();
 	void GenerateBlocks();
 
-	
 
 
 private:
 
-	//ƒIƒuƒWƒFƒNƒg3D‹¤’Ê•”•ª
+	//ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ3Då…±é€šéƒ¨åˆ†
 	Object3dCommon* object3dCommon = nullptr;
-	//DirectX‹¤’Ê•”•ª
+	//DirectXå…±é€šéƒ¨åˆ†
 	DirectXCommon* dxCommon = nullptr;
-	//ƒEƒBƒ“ƒhƒEƒYƒAƒvƒŠƒP[ƒVƒ‡ƒ“
+	//ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚ºã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³
 	WinApp* winApp = nullptr;
 
 
-	std::vector<std::vector<Vector3*>> translateBlocks_;
-	std::vector<Object3d*> blocks_;
-	Model* model_ = nullptr;
-	MapChipField* mapChipField_ = nullptr;
+	//std::vector<std::vector<Vector3*>> translateBlocks_;
+	//std::vector<Object3d*> blocks_;
+	//Model* model_ = nullptr;
+	//MapChipField* mapChipField_ = nullptr;
 
-	//ƒ‚ƒfƒ‹ƒfƒBƒŒƒNƒgƒŠƒpƒX
-	const std::string modelDirectoryPath = "Resources";
-	//ƒ‚ƒfƒ‹ƒtƒ@ƒCƒ‹ƒpƒX2
-	const std::string modelFileNamePath = "barrier.obj";
+	////ãƒ¢ãƒ‡ãƒ«ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªãƒ‘ã‚¹
+	//const std::string modelDirectoryPath = "Resources";
+	////ãƒ¢ãƒ‡ãƒ«ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹2
+	//const std::string modelFileNamePath = "barrier.obj";
 
 
-	Vector3 modelPosition = { -1.0f,0.0f,0.0f };
-	Vector3 modelRotation = { 0.0f,0.0f,0.0f };
-	Vector3 modelScale = { 1.0f,1.0f,1.0f };
+	//Vector3 modelPosition = { -1.0f,0.0f,0.0f };
+	//Vector3 modelRotation = { 0.0f,0.0f,0.0f };
+	//Vector3 modelScale = { 1.0f,1.0f,1.0f };
 
 };
 

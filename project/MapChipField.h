@@ -8,9 +8,9 @@
 
 
 enum class MapChipType {
-	kBlank, // ‹ó”’
-	kBlock, // ƒuƒƒbƒN
-	Player,//ƒvƒŒƒCƒ„[
+	kBlank, // ç©ºç™½
+	kBlock, // ãƒ–ãƒ­ãƒƒã‚¯
+	Player,//ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼
 };
 
 struct MapChipData {
@@ -45,10 +45,10 @@ public:
 	void SetMapChipTypeByIndex(uint32_t xIndex, uint32_t yIndex, MapChipType mapChipType);
 private:
 
-	// 1ƒuƒƒbƒN‚ÌƒTƒCƒY
+	// 1ãƒ–ãƒ­ãƒƒã‚¯ã®ã‚µã‚¤ã‚º
 	static inline const float kBlockWidth = 1.0f; // 2
 	static inline const float kBlockHeight = 1.0f; // 2
-	// ƒuƒƒbƒN‚ÌŒÂ”
+	// ãƒ–ãƒ­ãƒƒã‚¯ã®å€‹æ•°
 	static inline const uint32_t kNumBlockVirtical = 20;
 	static inline const uint32_t kNumBlockHorizontal = 100;
 
