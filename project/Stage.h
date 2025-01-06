@@ -10,6 +10,8 @@
 
 #include"Block.h"
 #include"Player.h"
+#include"Goal.h"
+
 class Stage
 {
 public:
@@ -56,6 +58,11 @@ private:
 
 	Block* block = nullptr;
 	Player* player_ = nullptr;
+	Goal* goal_ = nullptr;
+
+	Model* modelSkydome_;
+	Object3d* skydome_;
+	Vector3 rotate = {};
 
 	//SEファイル名
 	const std::string audioFileName = "fanfare.wav";

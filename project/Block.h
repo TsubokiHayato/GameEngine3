@@ -23,7 +23,7 @@ private:
 	DirectXCommon* dxCommon = nullptr;
 	//ウィンドウズアプリケーション
 	WinApp* winApp = nullptr;
-
+	ModelCommon* modelCommon;
 
 	std::vector<std::vector<Vector3*>> translateBlocks_;
 	std::vector<Object3d*> blocks_;

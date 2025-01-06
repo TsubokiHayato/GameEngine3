@@ -71,6 +71,21 @@ void Stage::Initialize(WinApp* winApp, DirectXCommon* dxCommon, Object3dCommon* 
 	player_ = new Player();
 	player_->Initialize(object3dCommon, modelCommon, dxCommon, winApp, mapChipField_);
 	player_->SetCamera(camera);
+	goal_ = new Goal;
+	goal_->Initialize(object3dCommon, modelCommon, dxCommon, winApp, mapChipField_);
+
+
+
+	// モデル
+	modelSkydome_ = new Model();
+	modelSkydome_->Initialize(modelCommon, modelDirectoryPath, modelFileNamePath);
+
+	skydome_ = new Object3d();
+	skydome_->Initialize(object3dCommon, winApp, dxCommon);
+	skydome_->SetModel(modelFileNamePath);
+
+	
+
 }
 
 void Stage::Update()
@@ -108,6 +123,7 @@ void Stage::Update()
 	if (ImGui::Button("Resume")) {
 		audio->Resume();
 	}
+
 	//volume
 	static float volume = 0.1f;
 	ImGui::SliderFloat("Volume", &volume, 0.0f, 1.0f);
@@ -129,8 +145,19 @@ void Stage::Update()
 	
 	player_->Update();
 	block->Update();
+	goal_->SetPlayer(player_);
+	
 
+	
+	skydome_->SetScale({40.0f, 40.0f, 40.0f});
+	
+	rotate.x+=0.001f;
+	rotate.y+=0.001f;
+	rotate.z+=0.001f;
 
+	skydome_->SetRotation(rotate);
+	skydome_->Update();
+	goal_->Update();
 
 	ImGui::End();
 
@@ -150,5 +177,6 @@ void Stage::Draw()
 {
 	player_->Draw();
 	block->Draw();
-
+	goal_->Draw();
+	skydome_->Draw();
 }

@@ -110,7 +110,6 @@ void Object3d::Draw()
 		model_->Draw();
 	}
 
-
 }
 
 void Object3d::SetModel(const std::string& filePath)

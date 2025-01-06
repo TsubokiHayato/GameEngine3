@@ -17,6 +17,9 @@ void Player::Initialize(Object3dCommon* Object3dCommon, ModelCommon* modelCommon
 	assert(map);
 	mapChipField_ = map;
 
+	isGoal = false;
+	isAlive = true;
+	onGround_ = false;
 	//モデル
 	model_ = new Model();
 	model_->Initialize(modelCommon, modelDirectoryPath, modelFileNamePath);
@@ -414,6 +417,8 @@ void Player::JudgmentMove(const CollisionMapInfo& info)
 	// 移動
 	modelPosition += info.movement;
 }
+
+
 
 Vector3 Player::CornerPosition(const Vector3& center, Corner corner)
 {
