@@ -157,7 +157,6 @@ void Player::CheckMapCollisionUp(CollisionMapInfo& info)
 		return;
 	}
 
-
 	std::array<Vector3, kNumCorner> positionsNew;
 
 	for (uint32_t i = 0; i < positionsNew.size(); ++i) {
@@ -214,6 +213,7 @@ void Player::CheckMapCollisionUp(CollisionMapInfo& info)
 			info.hitCeilingFlag = true;
 		}
 	}
+
 }
 
 void Player::CheckMapCollisionDown(CollisionMapInfo& info)
@@ -256,6 +256,7 @@ void Player::CheckMapCollisionDown(CollisionMapInfo& info)
 	if (mapChipType == MapChipType::kGoal && mapChipTypeNext != MapChipType::kGoal) {
 		isGoal = true;
 	}
+
 	if (hit) {
 		MapChipField::IndexSet indexSetNow;
 		indexSetNow = mapChipField_->GetMapChipIndexSetByPosition(modelPosition + Vector3(0, -kHeight / 2.0f, 0));
@@ -302,10 +303,12 @@ void Player::CheckMapCollisionRight(CollisionMapInfo& info)
 	if (mapChipType == MapChipType::kGoal) {
 		isGoal = true;
 	}
+
 	if (hit) {
 		MapChipField::Rect rect = mapChipField_->GetRectByIndex(indexSet.xIndex, indexSet.yIndex);
 		info.movement.x = std::max(0.0f, (rect.right - modelPosition.x) - (kWidth / 2.0f + kBlank));
 	}
+
 }
 
 
@@ -344,10 +347,12 @@ void Player::CheckMapCollisionLeft(CollisionMapInfo& info) {
 		MapChipField::Rect rect = mapChipField_->GetRectByIndex(indexSet.xIndex, indexSet.yIndex);
 		info.movement.x = std::min(0.0f, (rect.left -modelPosition.x) + (kWidth / 2.0f + kBlank));
 	}
+
 }
 
 
 void Player::GroundSetting(const CollisionMapInfo& info) {
+
 	// 接地状態の切り替え処理
 	if (onGround_) {
 		// ジャンプ開始
@@ -412,7 +417,6 @@ void Player::JudgmentMove(const CollisionMapInfo& info)
 
 Vector3 Player::CornerPosition(const Vector3& center, Corner corner)
 {
-
 	Vector3 offsetTable[kNumCorner] = {
 		{+kWidth / 2.0f, -kHeight / 2.0f, 0},
 		{-kWidth / 2.0f, -kHeight / 2.0f, 0},

@@ -144,11 +144,6 @@ void Stage::Update()
 	camera->setRotation(cameraRotation);
 	camera->setScale(cameraScale);
 	camera->Update();
-
-
-
-
-
 }
 
 void Stage::Draw()
