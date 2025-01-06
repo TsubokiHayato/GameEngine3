@@ -42,23 +42,48 @@ void Player::Initialize(Object3dCommon* Object3dCommon, ModelCommon* modelCommon
 }
 void Player::Update()
 {
-	object3d->Update();
+	if (isAlive) {
+		object3d->Update();
+		
+		Move();
+		// 衝突情報を初期化
+		CollisionMapInfo collisionMapInfo;
+		// 移動量に速度の値をコピー
+		collisionMapInfo.movement = velocity_;
+		collisionMapInfo.landingFlag = false;
+		collisionMapInfo.wallContactFlag = false;
+		// マップ衝突チェック
+		CheckMapCollision(collisionMapInfo);
 
-	Move();
-	// 衝突情報を初期化
-	CollisionMapInfo collisionMapInfo;
-	// 移動量に速度の値をコピー
-	collisionMapInfo.movement = velocity_;
-	collisionMapInfo.landingFlag = false;
-	collisionMapInfo.wallContactFlag = false;
-	// マップ衝突チェック
-	CheckMapCollision(collisionMapInfo);
+		JudgmentMove(collisionMapInfo);
 
-	JudgmentMove(collisionMapInfo);
+		CeilingContact(collisionMapInfo);
 
-	CeilingContact(collisionMapInfo);
+		GroundSetting(collisionMapInfo);
 
-	GroundSetting(collisionMapInfo);
+		if (modelPosition.y < 3.0f) {
+			isAlive = false;
+		}
+
+	}else {
+		for (uint32_t y = 0; y < mapChipField_->GetNumBlockVirtical(); ++y)
+		{
+			for (uint32_t x = 0; x < mapChipField_->GetNumBlockHorizontal(); ++x)
+			{
+				if (mapChipField_->GetMapChipTypeByIndex(x, y) == MapChipType::Player)
+				{
+					modelPosition = mapChipField_->GetMapChipPositionByIndex(x, y);
+				}
+			}
+		}
+		modelRotation = Vector3(0, 0, 0);
+		modelScale = Vector3(1, 1, 1);
+		
+		isGoal = false;
+		isAlive = true;
+		onGround_ = false;
+
+	}
 
 	object3d->SetPosition(modelPosition);
 	object3d->SetRotation(modelRotation);
@@ -265,7 +290,7 @@ void Player::CheckMapCollisionRight(CollisionMapInfo& info)
 	if (mapChipType == MapChipType::kBlock) {
 		hit = true;
 	}
-	if (mapChipType == MapChipType::kGoal && mapChipTypeNext != MapChipType::kGoal) {
+	if (mapChipType == MapChipType::kGoal) {
 		isGoal = true;
 	}
 	// 左上点の判定
@@ -274,7 +299,7 @@ void Player::CheckMapCollisionRight(CollisionMapInfo& info)
 	if (mapChipType == MapChipType::kBlock) {
 		hit = true;
 	}
-	if (mapChipType == MapChipType::kGoal && mapChipTypeNext != MapChipType::kGoal) {
+	if (mapChipType == MapChipType::kGoal) {
 		isGoal = true;
 	}
 	if (hit) {
@@ -314,6 +339,7 @@ void Player::CheckMapCollisionLeft(CollisionMapInfo& info) {
 	if (mapChipType == MapChipType::kGoal) {
 		isGoal = true;
 	}
+
 	if (hit) {
 		MapChipField::Rect rect = mapChipField_->GetRectByIndex(indexSet.xIndex, indexSet.yIndex);
 		info.movement.x = std::min(0.0f, (rect.left -modelPosition.x) + (kWidth / 2.0f + kBlank));

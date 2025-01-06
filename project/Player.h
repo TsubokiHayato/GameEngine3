@@ -88,7 +88,7 @@ private:
 	static inline const float kAcceleration = 0.2f;
 	static inline const float kGravityAcceleration = 0.07f;
 	static inline const float kBlank = 18.0f;
-	static inline const float kLimitFallSpeed = 0.1f;
+	static inline const float kLimitFallSpeed = 1.0f;
 
 
 	bool isGoal = false;
