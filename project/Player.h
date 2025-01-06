@@ -44,6 +44,9 @@ public:
 	Vector3 CornerPosition(const Vector3& center, Corner corner);
 
 	bool GetIsAlive() { return isAlive; }
+	bool GetIsGoal() { return isGoal; }
+	void SetIsGoal(bool isGoal) { this->isGoal = isGoal; }
+
 
 
 private:
@@ -86,5 +89,8 @@ private:
 	static inline const float kGravityAcceleration = 0.07f;
 	static inline const float kBlank = 18.0f;
 	static inline const float kLimitFallSpeed = 0.1f;
+
+
+	bool isGoal = false;
 };
 

@@ -155,6 +155,10 @@ void Player::CheckMapCollisionUp(CollisionMapInfo& info)
 	if (mapChipType == MapChipType::kBlock && mapChipTypeNext != MapChipType::kBlock) {
 		hit = true;
 	}
+	if (mapChipType == MapChipType::kGoal && mapChipTypeNext != MapChipType::kGoal) {
+		isGoal = true;
+	}
+
 
 	// 右上点の判定
 	indexSet = mapChipField_->GetMapChipIndexSetByPosition(positionsNew[kRightTop]);
@@ -164,6 +168,9 @@ void Player::CheckMapCollisionUp(CollisionMapInfo& info)
 	if (mapChipType == MapChipType::kBlock && mapChipTypeNext != MapChipType::kBlock) {
 
 		hit = true;
+	}
+	if (mapChipType == MapChipType::kGoal && mapChipTypeNext != MapChipType::kGoal) {
+		isGoal = true;
 	}
 
 	// ブロックにヒット
@@ -210,7 +217,9 @@ void Player::CheckMapCollisionDown(CollisionMapInfo& info)
 	if (mapChipType == MapChipType::kBlock && mapChipTypeNext != MapChipType::kBlock) {
 		hit = true;
 	}
-
+	if (mapChipType == MapChipType::kGoal && mapChipTypeNext != MapChipType::kGoal) {
+		isGoal = true;
+	}
 	// 右下点の判定
 	indexSet = mapChipField_->GetMapChipIndexSetByPosition(positionsNew[kRightBottom]);
 	mapChipType = mapChipField_->GetMapChipTypeByIndex(indexSet.xIndex, indexSet.yIndex);
@@ -219,7 +228,9 @@ void Player::CheckMapCollisionDown(CollisionMapInfo& info)
 	if (mapChipType == MapChipType::kBlock && mapChipTypeNext != MapChipType::kBlock) {
 		hit = true;
 	}
-
+	if (mapChipType == MapChipType::kGoal && mapChipTypeNext != MapChipType::kGoal) {
+		isGoal = true;
+	}
 	if (hit) {
 		MapChipField::IndexSet indexSetNow;
 		indexSetNow = mapChipField_->GetMapChipIndexSetByPosition(modelPosition + Vector3(0, -kHeight / 2.0f, 0));
@@ -243,6 +254,7 @@ void Player::CheckMapCollisionRight(CollisionMapInfo& info)
 		positionsNew[i] = CornerPosition(modelPosition + Vector3(info.movement.x, 0, 0), static_cast<Corner>(i));
 	}
 
+
 	MapChipType mapChipType;
 	bool hit = false;
 
@@ -253,14 +265,18 @@ void Player::CheckMapCollisionRight(CollisionMapInfo& info)
 	if (mapChipType == MapChipType::kBlock) {
 		hit = true;
 	}
-
+	if (mapChipType == MapChipType::kGoal && mapChipTypeNext != MapChipType::kGoal) {
+		isGoal = true;
+	}
 	// 左上点の判定
 	indexSet = mapChipField_->GetMapChipIndexSetByPosition(positionsNew[kLeftTop]);
 	mapChipType = mapChipField_->GetMapChipTypeByIndex(indexSet.xIndex, indexSet.yIndex);
 	if (mapChipType == MapChipType::kBlock) {
 		hit = true;
 	}
-
+	if (mapChipType == MapChipType::kGoal && mapChipTypeNext != MapChipType::kGoal) {
+		isGoal = true;
+	}
 	if (hit) {
 		MapChipField::Rect rect = mapChipField_->GetRectByIndex(indexSet.xIndex, indexSet.yIndex);
 		info.movement.x = std::max(0.0f, (rect.right - modelPosition.x) - (kWidth / 2.0f + kBlank));
@@ -286,14 +302,18 @@ void Player::CheckMapCollisionLeft(CollisionMapInfo& info) {
 	if (mapChipType == MapChipType::kBlock) {
 		hit = true;
 	}
-
+	if (mapChipType == MapChipType::kGoal ) {
+		isGoal = true;
+	}
 	// 右上点の判定
 	indexSet = mapChipField_->GetMapChipIndexSetByPosition(positionsNew[kRightTop]);
 	mapChipType = mapChipField_->GetMapChipTypeByIndex(indexSet.xIndex, indexSet.yIndex);
 	if (mapChipType == MapChipType::kBlock) {
 		hit = true;
 	}
-
+	if (mapChipType == MapChipType::kGoal) {
+		isGoal = true;
+	}
 	if (hit) {
 		MapChipField::Rect rect = mapChipField_->GetRectByIndex(indexSet.xIndex, indexSet.yIndex);
 		info.movement.x = std::min(0.0f, (rect.left -modelPosition.x) + (kWidth / 2.0f + kBlank));
@@ -326,14 +346,18 @@ void Player::GroundSetting(const CollisionMapInfo& info) {
 			if (mapChipType == MapChipType::kBlock) {
 				hit = true;
 			}
-
+			if (mapChipType == MapChipType::kGoal) {
+				isGoal = true;
+			}
 			// 右下点の判定
 			indexSet = mapChipField_->GetMapChipIndexSetByPosition(positonsNew[kRightBottom] + Vector3(0, 0, 0));
 			mapChipType = mapChipField_->GetMapChipTypeByIndex(indexSet.xIndex, indexSet.yIndex);
 			if (mapChipType == MapChipType::kBlock) {
 				hit = true;
 			}
-
+			if (mapChipType == MapChipType::kGoal) {
+				isGoal = true;
+			}
 			// 落下開始
 			if (!hit) {
 				// 空中状態に切り替える

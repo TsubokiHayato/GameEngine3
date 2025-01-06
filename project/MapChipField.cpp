@@ -11,6 +11,9 @@ namespace {
 		{"0", MapChipType::kBlank},
 		{"1", MapChipType::kBlock},
 		{"2", MapChipType::Player},
+		{"3", MapChipType::kGoal},
+		
+
 	};
 
 }

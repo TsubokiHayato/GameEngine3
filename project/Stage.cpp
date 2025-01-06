@@ -26,19 +26,17 @@ void Stage::Initialize(WinApp* winApp, DirectXCommon* dxCommon, Object3dCommon* 
 	//画像ハンドルをテクスチャマネージャに挿入する
 	TextureManager::GetInstance()->LoadTexture(uvCheckerTextureHandle);
 	TextureManager::GetInstance()->LoadTexture(monsterBallTextureHandle);
+	TextureManager::GetInstance()->LoadTexture(basupisuTextureHandle);
+
 #pragma endregion テクスチャの読み込み
 
 #pragma region ModelManagerの読み込み
 
 	ModelManager::GetInstance()->LoadModel(modelFileNamePath);
+	ModelManager::GetInstance()->LoadModel(modelFileNamePath2);
 
 #pragma endregion ModelManagerの読み込み
 
-
-#pragma region Inputの初期化
-
-
-#pragma endregion Inputの初期化
 
 #pragma region Audioの初期化
 
@@ -138,9 +136,9 @@ void Stage::Update()
 
 
 #endif // DEBUG
+
 	Vector2 move = { 0.0f,0.0f };
 	move.x = player_->GetPosition().x;
-	move.y = player_->GetPosition().y;
 
 	camera->SetTranslate({ move.x, 15.0f,-30.0f });
 	camera->setRotation(cameraRotation);
@@ -155,12 +153,6 @@ void Stage::Update()
 
 void Stage::Draw()
 {
-	/*objectBarrier->Draw();
-	for (Sprite* sprite : sprites) {
-		if (sprite) {
-			sprite->Draw();
-		}
-	}*/
 	player_->Draw();
 	block->Draw();
 

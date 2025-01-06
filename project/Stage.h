@@ -65,11 +65,14 @@ private:
 	//テクスチャマネージャに追加する画像ハンドル
 	std::string uvCheckerTextureHandle = "Resources/uvChecker.png";
 	std::string monsterBallTextureHandle = "Resources/monsterBall.png";
+	std::string basupisuTextureHandle = "Resources/basupisu.png";
 
 	//モデルディレクトリパス
 	const std::string modelDirectoryPath = "Resources";
+
 	//モデルファイルパス2
 	const std::string modelFileNamePath = "barrier.obj";
+	const std::string modelFileNamePath2 = "cube.obj";
 
 
 };

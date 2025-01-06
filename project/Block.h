@@ -33,7 +33,7 @@ private:
 	//モデルディレクトリパス
 	const std::string modelDirectoryPath = "Resources";
 	//モデルファイルパス2
-	const std::string modelFileNamePath = "barrier.obj";
+	const std::string modelFileNamePath = "cube.obj";
 
 	//モデルの回転
 	Vector3 modelRotation = { 0.0f,0.0f,0.0f };
