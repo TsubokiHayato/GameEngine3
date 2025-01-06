@@ -17,11 +17,11 @@ public:
 
 private:
 
-	//ƒIƒuƒWƒFƒNƒg3D‹¤’Ê•”•ª
+	//ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ3Då…±é€šéƒ¨åˆ†
 	Object3dCommon* object3dCommon = nullptr;
-	//DirectX‹¤’Ê•”•ª
+	//DirectXå…±é€šéƒ¨åˆ†
 	DirectXCommon* dxCommon = nullptr;
-	//ƒEƒBƒ“ƒhƒEƒYƒAƒvƒŠƒP[ƒVƒ‡ƒ“
+	//ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚ºã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³
 	WinApp* winApp = nullptr;
 
 
@@ -30,14 +30,14 @@ private:
 	Model* model_ = nullptr;
 	MapChipField* mapChipField_ = nullptr;
 
-	//ƒ‚ƒfƒ‹ƒfƒBƒŒƒNƒgƒŠƒpƒX
+	//ãƒ¢ãƒ‡ãƒ«ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªãƒ‘ã‚¹
 	const std::string modelDirectoryPath = "Resources";
-	//ƒ‚ƒfƒ‹ƒtƒ@ƒCƒ‹ƒpƒX2
+	//ãƒ¢ãƒ‡ãƒ«ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹2
 	const std::string modelFileNamePath = "barrier.obj";
 
-
-	Vector3 modelPosition = { -1.0f,0.0f,0.0f };
+	//ãƒ¢ãƒ‡ãƒ«ã®å›è»¢
 	Vector3 modelRotation = { 0.0f,0.0f,0.0f };
+	//ãƒ¢ãƒ‡ãƒ«ã®æ‹¡å¤§
 	Vector3 modelScale = { 1.0f,1.0f,1.0f };
 
 };

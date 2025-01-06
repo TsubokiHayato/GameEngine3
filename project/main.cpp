@@ -105,6 +105,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 #pragma endregion ImGuiManagerの初期化
 
+#pragma region Inputの初期化
+	//入力の初期化
+	Input::GetInstance()->Initialize(winApp);
+#pragma endregion Inputの初期化
+
+
 #pragma region Manegerの初期化
 	//テクスチャマネージャーの初期化
 	TextureManager::GetInstance()->Initialize(dxCommon);
@@ -142,7 +148,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 #ifdef _DEBUG
 		imGuiManager->Begin();
 #endif // DEBUG
-
+		Input::GetInstance()->Update();
 
 		/*--------------
 		   ゲームの処理
@@ -213,7 +219,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	delete dxCommon;
 
 	AudioCommon::GetInstance()->Finalize();
-	
+	Input::GetInstance()->Finalize();
 
 
 	//スプライト共通部分の削除
