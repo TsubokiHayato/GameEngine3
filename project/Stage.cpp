@@ -25,6 +25,7 @@ Stage::~Stage()
 	delete infoSprite;
 	delete title_;
 	audio->~Audio();
+	
 }
 void Stage::Initialize(WinApp* winApp, DirectXCommon* dxCommon, Object3dCommon* object3dCommon, ModelCommon* modelCommon, SpriteCommon* spriteCommon)
 {
@@ -135,10 +136,11 @@ void Stage::Update()
 {
 
 	if (Input::GetInstance()->TriggerKey(DIK_SPACE))
-	{
+	{     
 		isStage = true;
 		player_->SetIsGoal(false);
 	}
+
 	if (!isStage) {
 
 		
@@ -226,7 +228,7 @@ void Stage::Update()
 		{
 			if (audio_speed < 1.0f)
 			{
-				audio_speed += 0.02f;
+				audio_speed += 0.01f;
 				player_->SetRotation({ 0.0f,0.0f,0.0f });
 			}
 			else

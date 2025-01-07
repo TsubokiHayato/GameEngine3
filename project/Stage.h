@@ -48,7 +48,7 @@ private:
 	std::unique_ptr<Audio> audio = nullptr;
 	float audio_speed = 1.0f;
 	float playbackPosition = 0.0f;
-	float volume = 0.1f;
+	float volume = 1.0f;
 	//カメラ
 	Camera* camera = nullptr;
 	Vector3 cameraPosition = { 0.0f,0.0f,-15.0f };
@@ -80,7 +80,7 @@ private:
 	Goal* goal_ = nullptr;
 
 	//SEファイル名
-	const std::string audioFileName = "fanfare.wav";
+	const std::string audioFileName = "game.wav";
 	//SEディレクトリパス
 	const std::string audioDirectoryPath = "Resources/Audio/";
 
