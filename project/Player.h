@@ -48,6 +48,10 @@ public:
 	bool GetIsGoal() { return isGoal; }
 	void SetIsGoal(bool isGoal) { this->isGoal = isGoal; }
 
+	Vector3 GetVelocity() const{ return this->velocity_; }
+	void SetVelocity(Vector3 velocity) { this->velocity_ = velocity; }
+	Vector3 GetVelocityX() const { return this->velocity_; }
+	void SetVelocityX(float velocity) { this->velocity_.x = velocity; }
 
 
 private:
@@ -84,12 +88,12 @@ private:
 	static inline const float kHeight = 0.8f;
 
 	bool onGround_ = true;
-	Vector3 velocity_ = { 0.05f,0.0f,0.0f };
-	static inline const float kJumpAcceleration = 0.5f;
+	Vector3 velocity_ = { 0.1f,0.0f,0.0f };
+	static inline const float kJumpAcceleration = 0.6f;
 	static inline const float kAcceleration = 0.2f;
 	static inline const float kGravityAcceleration = 0.07f;
 	static inline const float kBlank = 18.0f;
-	static inline const float kLimitFallSpeed = 1.0f;
+	static inline const float kLimitFallSpeed = 0.75f;
 
 
 	bool isGoal = false;

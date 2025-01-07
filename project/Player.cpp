@@ -65,7 +65,12 @@ void Player::Update()
 		GroundSetting(collisionMapInfo);
 
 		if (modelPosition.y < 3.0f) {
-			isAlive = false;
+			if (modelPosition.y < 3.0f) {
+				
+				
+				isAlive = false;
+			}
+				
 		}
 
 	}else {
@@ -79,6 +84,7 @@ void Player::Update()
 				}
 			}
 		}
+		
 		modelRotation = Vector3(0, 0, 0);
 		modelScale = Vector3(1, 1, 1);
 		
@@ -94,15 +100,6 @@ void Player::Update()
 
 	object3d->Update();
 
-	ImGui::Begin("Object3D");
-	ImGui::DragFloat3("Position", &modelPosition.x);
-	ImGui::DragFloat3("Rotation", &modelRotation.x);
-	ImGui::DragFloat3("Scale", &modelScale.x);
-	ImGui::End();
-
-	ImGui::Begin("Player");
-	ImGui::Text("%d,onGround", onGround_);
-	ImGui::End();
 }
 
 
@@ -110,20 +107,16 @@ void Player::Draw()
 {
 	object3d->Draw();
 }
-
 void Player::Move()
 {
-
+	
 	// 移動入力
 	if (onGround_) {
-		// 左右移動操作
-
+		if (Input::GetInstance()->PushKey(DIK_SPACE)) {
 		
-		if (Input::GetInstance()->PushKey(DIK_UP)) {
 
 			// ジャンプ初速
 			velocity_.y += kJumpAcceleration;
-			// 空中
 		}
 	}
 	else {
@@ -132,7 +125,6 @@ void Player::Move()
 		// 落下速度制限
 		velocity_.y = std::max(velocity_.y, -kLimitFallSpeed);
 	}
-
 }
 
 void Player::CheckMapCollision(CollisionMapInfo& info)

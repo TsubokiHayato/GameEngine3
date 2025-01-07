@@ -42,21 +42,15 @@ void Input::Initialize(WinApp* winApp)
     result = keyboard->SetCooperativeLevel(winApp->GetHWND(), DISCL_FOREGROUND | DISCL_NONEXCLUSIVE | DISCL_NOWINKEY);
     assert(SUCCEEDED(result));
 }
-
 void Input::Update()
 {
     if (key != nullptr && keyPre != nullptr) {
         memcpy(keyPre, key, sizeof(key));
     }
     keyboard->Acquire();
-    keyboard->GetDeviceState(sizeof(key), key);
-    memcpy(keyPre, key, sizeof(key));
-    keyboard->Acquire();
-
-   
-    keyboard->GetDeviceState(sizeof(key), key);
+    HRESULT result = keyboard->GetDeviceState(sizeof(key), key);
+    
 }
-
 bool Input::PushKey(BYTE keyNumber)
 {
     if (key[keyNumber]) {
@@ -64,7 +58,6 @@ bool Input::PushKey(BYTE keyNumber)
     }
     return false;
 }
-
 bool Input::TriggerKey(BYTE keyNumber)
 {
     return (key[keyNumber] != 0) && (keyPre[keyNumber] == 0);

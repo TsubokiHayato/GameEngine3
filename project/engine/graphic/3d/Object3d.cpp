@@ -101,7 +101,7 @@ void Object3d::Draw()
 {
 
 	//wvp用のCBufferの場所を設定
-	commandList->SetGraphicsRootConstantBufferView(1, transformMatrixResource->GetGPUVirtualAddress());
+ 	commandList->SetGraphicsRootConstantBufferView(1, transformMatrixResource->GetGPUVirtualAddress());
 	//平行光源用のCBufferの場所を設定
 	commandList->SetGraphicsRootConstantBufferView(3, directionalLightResource->GetGPUVirtualAddress());
 

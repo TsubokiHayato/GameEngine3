@@ -26,7 +26,7 @@ void Stage::Initialize(WinApp* winApp, DirectXCommon* dxCommon, Object3dCommon* 
 	//画像ハンドルをテクスチャマネージャに挿入する
 	TextureManager::GetInstance()->LoadTexture(uvCheckerTextureHandle);
 	TextureManager::GetInstance()->LoadTexture(monsterBallTextureHandle);
-	TextureManager::GetInstance()->LoadTexture(basupisuTextureHandle);
+
 
 #pragma endregion テクスチャの読み込み
 
@@ -68,23 +68,15 @@ void Stage::Initialize(WinApp* winApp, DirectXCommon* dxCommon, Object3dCommon* 
 
 	block = new Block();
 	block->Initialize(object3dCommon, modelCommon, dxCommon, winApp, mapChipField_);
+
 	player_ = new Player();
 	player_->Initialize(object3dCommon, modelCommon, dxCommon, winApp, mapChipField_);
 	player_->SetCamera(camera);
+
 	goal_ = new Goal;
 	goal_->Initialize(object3dCommon, modelCommon, dxCommon, winApp, mapChipField_);
 
-
-
-	// モデル
-	modelSkydome_ = new Model();
-	modelSkydome_->Initialize(modelCommon, modelDirectoryPath, modelFileNamePath);
-
-	skydome_ = new Object3d();
-	skydome_->Initialize(object3dCommon, winApp, dxCommon);
-	skydome_->SetModel(modelFileNamePath);
-
-	
+	audio_speed = player_->GetVelocity().x * 10.0f*2.0f;
 
 }
 
@@ -101,10 +93,6 @@ void Stage::Update()
 
 
 
-
-	static float scratchPosition = 0.0f;
-	static bool isScratching = false;
-	static float lastScratchPosition = 0.0f;
 	//再生時間
 	float duration = audio->GetSoundDuration();
 
@@ -125,45 +113,62 @@ void Stage::Update()
 	}
 
 	//volume
-	static float volume = 0.1f;
 	ImGui::SliderFloat("Volume", &volume, 0.0f, 1.0f);
-	audio->SetVolume(volume);
-
 	// 再生バー
-	static float playbackPosition = 0.0f;
 	//再生位置の取得
 	playbackPosition = audio->GetPlaybackPosition();
 	//再生位置の視認
 	ImGui::SliderFloat("Playback Position", &playbackPosition, 0.0f, duration);
-	//audio->SetPlaybackPosition(playbackPosition);
-
 	//speed
-	static float speed = 0.0f;
-	ImGui::SliderFloat("Speed", &speed, 0.0f, 2.0f);
-	audio->SetPlaybackSpeed(speed);
-
-	
-	player_->Update();
-	block->Update();
-	goal_->SetPlayer(player_);
-	
-
-	
-	skydome_->SetScale({40.0f, 40.0f, 40.0f});
-	
-	rotate.x+=0.001f;
-	rotate.y+=0.001f;
-	rotate.z+=0.001f;
-
-	skydome_->SetRotation(rotate);
-	skydome_->Update();
-	goal_->Update();
-
-	ImGui::End();
-
+	ImGui::SliderFloat("Speed", &audio_speed, 0.0f, 2.0f);
 
 #endif // DEBUG
 
+
+
+	player_->Update();
+	block->Update();
+	goal_->SetPlayer(player_);
+
+
+	goal_->Update();
+
+	audio->SetVolume(volume);
+	
+	
+	if (!player_->GetIsAlive()){
+		audio_speed -= 0.5f;
+	}
+	static bool isRestart = false;
+
+	static int RestartCount = 0;
+	if (audio_speed <= 0.0f)
+	{
+		RestartCount++;
+		if (RestartCount <= 180)
+		{
+
+			isRestart = true;
+		}
+	}
+	if (isRestart)
+	{
+		if (audio_speed < 2.0f)
+		{
+			audio_speed += 0.01f;
+		}
+		else
+		{
+			audio_speed = 2.0f;
+			RestartCount = 0;
+			isRestart = false;
+		}
+
+	}
+	else {
+		player_->SetVelocityX({ audio_speed / 5.0f });
+	}
+	
 	Vector2 move = { 0.0f,0.0f };
 	move.x = player_->GetPosition().x;
 
@@ -171,6 +176,13 @@ void Stage::Update()
 	camera->setRotation(cameraRotation);
 	camera->setScale(cameraScale);
 	camera->Update();
+
+
+#ifdef _DEBUG
+	ImGui::End();
+#endif // DEBUG
+
+
 }
 
 void Stage::Draw()
@@ -178,5 +190,5 @@ void Stage::Draw()
 	player_->Draw();
 	block->Draw();
 	goal_->Draw();
-	skydome_->Draw();
+
 }

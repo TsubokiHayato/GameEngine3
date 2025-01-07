@@ -45,6 +45,9 @@ private:
 
 	//オーディオ
 	std::unique_ptr<Audio> audio = nullptr;
+	float audio_speed = 2.0f;
+	float playbackPosition = 0.0f;
+	float volume = 0.1f;
 	//カメラ
 	Camera* camera = nullptr;
 	Vector3 cameraPosition = { 0.0f,0.0f,-15.0f };
@@ -60,10 +63,6 @@ private:
 	Player* player_ = nullptr;
 	Goal* goal_ = nullptr;
 
-	Model* modelSkydome_;
-	Object3d* skydome_;
-	Vector3 rotate = {};
-
 	//SEファイル名
 	const std::string audioFileName = "fanfare.wav";
 	//SEディレクトリパス
@@ -72,7 +71,7 @@ private:
 	//テクスチャマネージャに追加する画像ハンドル
 	std::string uvCheckerTextureHandle = "Resources/uvChecker.png";
 	std::string monsterBallTextureHandle = "Resources/monsterBall.png";
-	std::string basupisuTextureHandle = "Resources/basupisu.png";
+	
 
 	//モデルディレクトリパス
 	const std::string modelDirectoryPath = "Resources";
