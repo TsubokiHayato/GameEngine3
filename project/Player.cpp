@@ -47,7 +47,10 @@ void Player::Update()
 {
 	if (isAlive) {
 		object3d->Update();
-		
+
+		modelRotation.z-=0.1f;
+		object3d->SetRotation(modelRotation);
+
 		Move();
 		// 衝突情報を初期化
 		CollisionMapInfo collisionMapInfo;
@@ -86,14 +89,32 @@ void Player::Update()
 		}
 		
 		modelRotation = Vector3(0, 0, 0);
-		modelScale = Vector3(1, 1, 1);
+		object3d->SetRotation(modelRotation);
+		modelScale = Vector3(0.5f, 0.5f, 0.5f);
 		
 		isGoal = false;
 		isAlive = true;
 		onGround_ = false;
-
+		 
 	}
 
+	if (isGoal) {
+		for (uint32_t y = 0; y < mapChipField_->GetNumBlockVirtical(); ++y)
+		{
+			for (uint32_t x = 0; x < mapChipField_->GetNumBlockHorizontal(); ++x)
+			{
+				if (mapChipField_->GetMapChipTypeByIndex(x, y) == MapChipType::Player)
+				{
+					modelPosition = mapChipField_->GetMapChipPositionByIndex(x, y);
+				}
+			}
+		}
+		modelRotation = Vector3(0, 0, 0);
+		modelScale = Vector3(0.5f, 0.5f, 0.5f);
+		
+		isAlive = true;
+		onGround_ = false;
+	}
 	object3d->SetPosition(modelPosition);
 	object3d->SetRotation(modelRotation);
 	object3d->SetScale(modelScale);

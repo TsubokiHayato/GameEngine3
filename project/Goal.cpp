@@ -36,12 +36,12 @@ void Goal::Initialize(Object3dCommon* Object3dCommon, ModelCommon* modelCommon, 
 	}
 }
 
-void Goal::Update() { 
-	if (player_->GetIsGoal()) {
-		modelRotation.x++;
-		modelRotation.y++;
-		modelRotation.z++;
-	}
+void Goal::Update() {
+
+	modelRotation.x++;
+	modelRotation.y++;
+	modelRotation.z++;
+
 	object3d->SetPosition(modelPosition);
 	object3d->SetRotation(modelRotation);
 	object3d->SetScale(modelScale);

@@ -12,6 +12,7 @@
 #include"Player.h"
 #include"Goal.h"
 
+
 class Stage
 {
 public:
@@ -45,7 +46,7 @@ private:
 
 	//オーディオ
 	std::unique_ptr<Audio> audio = nullptr;
-	float audio_speed = 2.0f;
+	float audio_speed = 1.0f;
 	float playbackPosition = 0.0f;
 	float volume = 0.1f;
 	//カメラ
@@ -55,6 +56,21 @@ private:
 	Vector3 cameraScale = { 1.0f,1.0f,1.0f };
 
 	
+	Model* modelSkydome_;
+	Object3d* skydome_;
+	Model* modelSkydome2_;
+	Object3d* skydome2_;
+	Vector3 rotate = {};
+
+
+
+	//スプライト
+	Sprite* infoSprite = nullptr;
+	//オブジェクト3D
+	Object3d* title_ = nullptr;
+	//モデル
+	Model* modelTitle_ = nullptr;
+
 	/*mapChip*/
 	MapChipField* mapChipField_ = nullptr;
 	//MapChipField* StageMapChip[6];
@@ -71,15 +87,19 @@ private:
 	//テクスチャマネージャに追加する画像ハンドル
 	std::string uvCheckerTextureHandle = "Resources/uvChecker.png";
 	std::string monsterBallTextureHandle = "Resources/monsterBall.png";
+	std::string infoTextureHandle = "Resources/SpaceStart.png";
 	
-
 	//モデルディレクトリパス
 	const std::string modelDirectoryPath = "Resources";
 
 	//モデルファイルパス2
 	const std::string modelFileNamePath = "barrier.obj";
 	const std::string modelFileNamePath2 = "cube.obj";
+	const std::string modelFileNamePath3 = "skydome.obj";
+	const std::string modelFileNamePath4 = "title.obj";
+	const std::string modelFileNamePath5 = "player.obj";
+	
 
-
+	bool isStage = false;
 };
 

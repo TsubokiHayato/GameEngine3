@@ -23,7 +23,6 @@
 #include <iostream>
 #include <algorithm>
 #include"stage.h"
-#include"Title.h"
 #undef min//minマクロを無効化
 #undef max//maxマクロを無効化
 
@@ -38,11 +37,7 @@ extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg
 
 #endif // DEBUG
 
-enum Scene
-{
-	TitleScene,
-	Game
-};
+
 
 
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
@@ -123,31 +118,11 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	ModelManager::GetInstance()->initialize(dxCommon);
 #pragma endregion Manegerの初期化
 
-	Title* title = new Title();
-	title->Initialize(winApp, dxCommon, object3dCommon, modelCommon, spriteCommon);
-
 	Stage* stage = new Stage();
 	stage->Initialize(winApp, dxCommon, object3dCommon, modelCommon, spriteCommon);
 
 
-	Model* modelSkydome_;
-	Object3d* skydome_;
-	Vector3 rotate = {};
-	//モデルディレクトリパス
-	const std::string modelDirectoryPath = "Resources";
-	//モデルファイルパス2
-	const std::string modelFileNamePath = "barrier.obj";
-
-	// モデル
-	modelSkydome_ = new Model();
-	modelSkydome_->Initialize(modelCommon, modelDirectoryPath, modelFileNamePath);
-
-	skydome_ = new Object3d();
-	skydome_->Initialize(object3dCommon, winApp, dxCommon);
-	skydome_->SetModel(modelFileNamePath);
-
-	Scene scene = Scene::TitleScene;
-
+	
 
 	//ウィンドウの×ボタンんが押されるまでループ
 	while (true) {
@@ -182,14 +157,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		--------------*/
 
 
-		
+		stage->Update();
 
-		
-			
-			
-			stage->Update();
 
-			
 
 
 
@@ -220,10 +190,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		spriteCommon->DrawSettingsCommon();
 
 
-		
-			stage->Draw();
-		
-
+		stage->Draw();
 		
 
 

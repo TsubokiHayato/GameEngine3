@@ -45,6 +45,8 @@ public:
 	Vector3 CornerPosition(const Vector3& center, Corner corner);
 
 	bool GetIsAlive() { return isAlive; }
+	void SetIsAlive(bool isAlive) { this->isAlive = isAlive; }
+
 	bool GetIsGoal() { return isGoal; }
 	void SetIsGoal(bool isGoal) { this->isGoal = isGoal; }
 
@@ -53,7 +55,8 @@ public:
 	Vector3 GetVelocityX() const { return this->velocity_; }
 	void SetVelocityX(float velocity) { this->velocity_.x = velocity; }
 
-
+	void SetRotation(Vector3 rotation) { object3d->SetRotation(rotation); }
+	Vector3 GetRotation() { return object3d->GetRotation(); }
 private:
 
 	//オブジェクト3D共通部分
@@ -73,7 +76,7 @@ private:
 	//モデルディレクトリパス
 	const std::string modelDirectoryPath = "Resources";
 	//モデルファイルパス2
-	const std::string modelFileNamePath = "barrier.obj";
+	const std::string modelFileNamePath = "player.obj";
 
 	Vector3 modelPosition = { 0.0f,0.0f,0.0f };
 
@@ -81,14 +84,14 @@ private:
 	//モデルの回転
 	Vector3 modelRotation = { 0.0f,0.0f,0.0f };
 	//モデルの拡大
-	Vector3 modelScale = { 1.0f,1.0f,1.0f };
+	Vector3 modelScale = { 0.5f,0.5f,0.5f };
 
 	bool isAlive = true;
 	static inline const float kWidth = 0.8f;
 	static inline const float kHeight = 0.8f;
 
 	bool onGround_ = true;
-	Vector3 velocity_ = { 0.1f,0.0f,0.0f };
+	Vector3 velocity_ = { 0.3f,0.0f,0.0f };
 	static inline const float kJumpAcceleration = 0.6f;
 	static inline const float kAcceleration = 0.2f;
 	static inline const float kGravityAcceleration = 0.07f;
