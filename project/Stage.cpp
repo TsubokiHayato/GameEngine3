@@ -25,7 +25,13 @@ Stage::~Stage()
 	delete infoSprite;
 	delete title_;
 	audio->~Audio();
-	
+
+	delete modelTitle_;
+	delete jumpUISprite;
+	delete escapeUiSprite;
+
+
+
 }
 void Stage::Initialize(WinApp* winApp, DirectXCommon* dxCommon, Object3dCommon* object3dCommon, ModelCommon* modelCommon, SpriteCommon* spriteCommon)
 {
@@ -37,6 +43,8 @@ void Stage::Initialize(WinApp* winApp, DirectXCommon* dxCommon, Object3dCommon* 
 	TextureManager::GetInstance()->LoadTexture(uvCheckerTextureHandle);
 	TextureManager::GetInstance()->LoadTexture(monsterBallTextureHandle);
 	TextureManager::GetInstance()->LoadTexture(infoTextureHandle);
+	TextureManager::GetInstance()->LoadTexture(jumpUITextureHandle);
+	TextureManager::GetInstance()->LoadTexture(escapeUITextureHandle);
 
 #pragma endregion テクスチャの読み込み
 
@@ -87,7 +95,19 @@ void Stage::Initialize(WinApp* winApp, DirectXCommon* dxCommon, Object3dCommon* 
 
 	infoSprite->SetGetIsAdjustTextureSize(true);
 
+	jumpUISprite = new Sprite();
+	jumpUISprite->Initialize(spriteCommon, winApp, dxCommon, "Resources/JumpUI.png");
+	static Vector2 jumpUIPosition = { 640.0f,680.0f };
+	jumpUISprite->SetPosition(jumpUIPosition);
+	jumpUISprite->SetAnchorPoint({ 0.5f,0.5f });
+	jumpUISprite->SetGetIsAdjustTextureSize(true);
 
+	escapeUiSprite = new Sprite();
+	escapeUiSprite->Initialize(spriteCommon, winApp, dxCommon, "Resources/ESC.png");
+	static Vector2 escapeUIPosition = { 0.0f,0.0f };
+	escapeUiSprite->SetPosition(escapeUIPosition);
+	//escapeUiSprite->SetAnchorPoint({ 0.5f,0.5f });
+	escapeUiSprite->SetGetIsAdjustTextureSize(true);
 
 
 
@@ -135,34 +155,47 @@ void Stage::Initialize(WinApp* winApp, DirectXCommon* dxCommon, Object3dCommon* 
 void Stage::Update()
 {
 
+
 	if (Input::GetInstance()->TriggerKey(DIK_SPACE))
-	{     
+	{
 		isStage = true;
 		player_->SetIsGoal(false);
 	}
+	if (audio_speed == 1.0f)
+	{
+
+		if (Input::GetInstance()->TriggerKey(DIK_ESCAPE))
+		{
+			audio_speed = 0.0f;
+			isStage = false;
+			player_->SetIsGoal(false);
+			player_->InitializePos();
+		}
+	}
+
 
 	if (!isStage) {
 
-		
-		title_->Update();
-		infoSprite->Update();
+
+
+
 		static Vector2 infoPosition = { 640.0f,525.0f };
-		
+
 
 		static Vector3 modelPosition = { 0.0f,17.0f,0.0f };
 		title_->SetScale({ 2.0f,2.0f,2.0f });
 		title_->SetPosition(modelPosition);
-		ImGui::Begin("title");
-		ImGui::DragFloat3("Position", &modelPosition.x);
-		ImGui::End();
+		title_->Update();
 
 		infoSprite->SetPosition(infoPosition);
+		infoSprite->Update();
+		camera->SetTranslate({ 0.0f, 15.0f,-20.0f });
 	}
 	else {
 #ifdef _DEBUG
 
 
-		
+
 		//再生時間
 		float duration = audio->GetSoundDuration();
 
@@ -192,14 +225,14 @@ void Stage::Update()
 		//speed
 		ImGui::SliderFloat("Speed", &audio_speed, 0.0f, 2.0f);
 
-#endif // DEBUG
+
 		//カメラの位置
 		ImGui::Begin("camera");
 		ImGui::DragFloat3("Position", &cameraPosition.x);
 		ImGui::DragFloat3("Rotation", &cameraRotation.x);
 		ImGui::DragFloat3("Scale", &cameraScale.x);
 		ImGui::End();
-
+#endif // DEBUG
 
 		player_->Update();
 		block->Update();
@@ -209,7 +242,8 @@ void Stage::Update()
 		goal_->Update();
 
 		audio->SetVolume(volume);
-
+		jumpUISprite->Update();
+		escapeUiSprite->Update();
 
 		if (!player_->GetIsAlive()) {
 			audio_speed = 0.0f;
@@ -236,7 +270,7 @@ void Stage::Update()
 				audio_speed = 1.0f;
 				isRestart = false;
 				player_->SetVelocityX(0.2f);
-				
+
 
 			}
 
@@ -246,11 +280,12 @@ void Stage::Update()
 		move.x = player_->GetPosition().x;
 		audio->SetPlaybackSpeed(audio_speed);
 		camera->SetTranslate({ move.x, 15.0f,-20.0f });
-		
+
 
 		if (player_->GetIsGoal())
-		{
+		{audio_speed = 0.0f;
 			isStage = false;
+			
 		}
 
 
@@ -286,6 +321,9 @@ void Stage::Draw()
 		block->Draw();
 		goal_->Draw();
 
+		jumpUISprite->Draw();
+		escapeUiSprite->Draw();
+
 	}
 	else {
 		title_->Draw();
@@ -293,8 +331,9 @@ void Stage::Draw()
 	}
 
 	skydome2_->Draw();
-	skydome_->Draw(); 
-	
-	
+	skydome_->Draw();
+
+
 
 }
+

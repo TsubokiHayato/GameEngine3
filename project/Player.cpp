@@ -128,6 +128,26 @@ void Player::Draw()
 {
 	object3d->Draw();
 }
+void Player::InitializePos()
+{
+
+	for (uint32_t y = 0; y < mapChipField_->GetNumBlockVirtical(); ++y)
+	{
+		for (uint32_t x = 0; x < mapChipField_->GetNumBlockHorizontal(); ++x)
+		{
+			if (mapChipField_->GetMapChipTypeByIndex(x, y) == MapChipType::Player)
+			{
+
+				modelPosition = mapChipField_->GetMapChipPositionByIndex(x, y);
+
+
+			}
+		}
+	}
+
+	object3d->SetPosition(modelPosition);
+
+}
 void Player::Move()
 {
 	

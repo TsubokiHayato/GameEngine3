@@ -24,6 +24,7 @@ public:
 	void Update();
 	void Draw();
 
+	void InitializePos();
 	void Move();
 
 	void SetMapChipField(MapChipField* mapChipField) { mapChipField_ = mapChipField; }

@@ -31,11 +31,7 @@ void Block::Update()
 		block->SetScale(modelScale);
 
 	}
-	ImGui::Begin("Object3D_block");
-	ImGui::Text("%d", static_cast<int>(blocks_.size()));
-	ImGui::DragFloat3("Rotation", &modelRotation.x);
-	ImGui::DragFloat3("Scale", &modelScale.x, 0.1f);
-	ImGui::End();
+	
 
 
 }

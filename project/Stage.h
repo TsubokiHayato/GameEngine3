@@ -42,6 +42,7 @@ public:
 	/// </summary>
 	void Draw();
 
+
 private:
 
 	//オーディオ
@@ -66,6 +67,9 @@ private:
 
 	//スプライト
 	Sprite* infoSprite = nullptr;
+	Sprite* jumpUISprite = nullptr;
+	Sprite* escapeUiSprite = nullptr;
+
 	//オブジェクト3D
 	Object3d* title_ = nullptr;
 	//モデル
@@ -88,6 +92,8 @@ private:
 	std::string uvCheckerTextureHandle = "Resources/uvChecker.png";
 	std::string monsterBallTextureHandle = "Resources/monsterBall.png";
 	std::string infoTextureHandle = "Resources/SpaceStart.png";
+	std::string jumpUITextureHandle = "Resources/JumpUI.png";
+	std::string escapeUITextureHandle = "Resources/ESC.png";
 	
 	//モデルディレクトリパス
 	const std::string modelDirectoryPath = "Resources";
