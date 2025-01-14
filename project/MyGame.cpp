@@ -37,7 +37,7 @@ void MyGame::Initialize()
 	---------------*/
 #pragma region スプライトの初期化
 	// スプライト初期化
-	
+
 	for (uint32_t i = 0; i < 1; ++i) {
 
 		Sprite* sprite = new Sprite();
@@ -83,15 +83,15 @@ void MyGame::Initialize()
 	---------------*/
 #pragma region 3Dモデルの初期化
 	//オブジェクト3D
-	
+
 	object3d = new Object3d();
 	object3d->Initialize(object3dCommon, winApp, dxCommon);
 
-	
+
 
 
 	//モデル
-	
+
 	model = new Model();
 	model->Initialize(modelCommon, modelDirectoryPath, modelFileNamePath);
 
@@ -103,7 +103,7 @@ void MyGame::Initialize()
 
 
 	//オブジェクト3D
-	
+
 	object3d2 = new Object3d();
 	object3d2->Initialize(object3dCommon, winApp, dxCommon);
 
@@ -111,7 +111,7 @@ void MyGame::Initialize()
 
 
 	//モデル
-	
+
 	model2 = new Model();
 	model2->Initialize(modelCommon, modelDirectoryPath, modelFileNamePath2);
 
@@ -124,7 +124,7 @@ void MyGame::Initialize()
 	//カメラ
 
 	camera = new Camera();
-	
+
 	camera->SetTranslate(cameraPosition);
 	camera->setRotation(cameraRotation);
 	camera->setScale(cameraScale);
@@ -134,7 +134,10 @@ void MyGame::Initialize()
 
 #pragma endregion cameraの初期化
 
-
+	//最初のシーンを設定する
+	BaseScene* scene = new TitleScene();
+	//シーンマネージャーに最初のシーンを設定する
+	SceneManager::GetInstance()->SetNextScene(scene);
 
 
 }
@@ -142,7 +145,7 @@ void MyGame::Initialize()
 void MyGame::Update()
 {
 
-	Framework::Update();
+	
 
 
 	/*-------------------
@@ -233,6 +236,8 @@ void MyGame::Update()
 	audio->SetPlaybackSpeed(speed);
 
 	ImGui::End();
+	Framework::Update();
+
 
 	ImGui::ShowDemoWindow();
 	imGuiManager->End();
@@ -304,12 +309,12 @@ void MyGame::Finalize()
 
 	//リソースリークチェック
 
-	
-	
+
+
 	//カメラの削除
 	delete camera;
 
-	
+
 
 
 	for (Sprite* sprite : sprites) {
@@ -318,10 +323,10 @@ void MyGame::Finalize()
 		}
 	}
 
-	
+
 	delete object3d;
 
-	
+
 	delete model;
 
 	delete model2;
@@ -354,28 +359,21 @@ void MyGame::Draw()
 	/*-------------------
 	　　シーンの描画
 　　-------------------*/
-
-
-
   //3Dオブジェクトの描画準備。3Dオブジェクトの描画に共通のグラフィックスコマンドを積む
 	object3dCommon->DrawSettingsCommon();
+	spriteCommon->DrawSettingsCommon();
 
-	//オブジェクト3Dの描画
+	SceneManager::GetInstance()->Draw();
 
-#pragma region Draw3D
-
+	/*-------------------
+			3D
+	-------------------*/
 	object3d->Draw();
 	object3d2->Draw();
 
-#pragma endregion Draw3D
-
-#pragma region Draw2D
 	/*-------------------
 			2D
 	--------------------*/
-
-	//2Dオブジェクトの描画準備。2Dオブジェクトの描画に共通のグラフィックスコマンドを積む
-	spriteCommon->DrawSettingsCommon();
 
 	// 描画処理
 	for (Sprite* sprite : sprites) {
@@ -384,7 +382,7 @@ void MyGame::Draw()
 		}
 	}
 
-#pragma endregion Draw2D
+
 
 
 #ifdef _DEBUG

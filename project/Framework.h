@@ -14,6 +14,7 @@
 #endif // DEBUG
 
 #include"Input.h"
+#include"SceneManager.h"
 
 class Framework
 {
@@ -50,5 +51,6 @@ protected:
 	SrvManager* srvManager = nullptr;
 	std::unique_ptr<ImGuiManager> imGuiManager = nullptr;
 
+	
 };
 

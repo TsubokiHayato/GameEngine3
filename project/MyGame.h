@@ -2,7 +2,6 @@
 #include"Framework.h"
 
 #include"MT_Matrix.h"
-#include "Input.h"
 #include"Audio.h"
 #include"Camera.h"
 #include"Sprite.h"
@@ -10,6 +9,9 @@
 #include"Model.h"
 #include <iostream>
 #include <algorithm>
+
+#include"TitleScene.h"
+#include"GamePlayScene.h"
 
 #undef min//minマクロを無効化
 #undef max//maxマクロを無効化

@@ -86,6 +86,9 @@ void Framework::Initialize()
 	Input::GetInstance()->Initialize(winApp);
 #pragma endregion Inputの初期化
 
+
+	
+
 }
 
 void Framework::Update()
@@ -95,6 +98,8 @@ void Framework::Update()
 		endRequest = true;
 	}
 	Input::GetInstance()->Update();
+
+	SceneManager::GetInstance()->Update();
 	
 }
 
@@ -123,7 +128,7 @@ void Framework::Finalize()
 	imGuiManager->Finalize();
 #endif // DEBUG
 
-
+	SceneManager::GetInstance()->Finalize();
 }
 
 
