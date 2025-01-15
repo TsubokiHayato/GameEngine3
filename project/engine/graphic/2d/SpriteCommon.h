@@ -1,5 +1,6 @@
 #pragma once
 #include"DirectXcommon.h"
+#include"WinApp.h"
 class PSO;//前方宣言
 class SpriteCommon
 {
@@ -11,7 +12,7 @@ public:
 	/// <summary>
 	/// 初期化
 	/// </summary>
-	void Initialize(DirectXCommon* dxCommon);
+	void Initialize(WinApp* winApp,DirectXCommon* dxCommon);
 
 	/// <summary>
 	/// 共通描画設定
@@ -21,12 +22,13 @@ public:
 			GETTER!
 	---------------------------------------------------*/
 	DirectXCommon* GetDxCommon()const { return dxCommon_; }
-
+	WinApp* GetWinApp()const { return winApp_; }
 private:
 
+	WinApp* winApp_ = nullptr;//Spriteに引き渡すためのWinApp
 	DirectXCommon* dxCommon_;
 	PSO* pso = nullptr;
-
+	
 
 };
 

@@ -3,7 +3,7 @@
 
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
-
+	//フレームワークのインスタンスを生成
 	Framework* framework = new Order();
 
 	framework->Run();

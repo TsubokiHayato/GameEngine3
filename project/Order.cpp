@@ -2,20 +2,23 @@
 
 void Order::Initialize()
 {
+	//基盤システムの初期化
 	Framework::Initialize();
 }
 
 void Order::Update()
 {
+	//更新処理
 	Framework::Update();
-
-	Framework::ImguiPreDraw();
-
-	Framework::ImguiPostDraw();
+	//ImGuiの受付開始
+	Framework::ImGuiPreDraw();
+	//ImGuiの描画
+	Framework::ImGuiPostDraw();
 }
 
 void Order::Finalize()
 {
+	//終了処理
 	Framework::Finalize();
 
 }

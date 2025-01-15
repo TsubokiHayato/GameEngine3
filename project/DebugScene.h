@@ -45,7 +45,7 @@ class DebugScene :public IScene
 	//--------------------------------------
 	//メンバ関数
 public:
-	void Initialize(Object3dCommon* object3dCommon,SpriteCommon* spriteCommon ,WinApp* winApp,DirectXCommon* dxCommon)override;
+	void Initialize(Object3dCommon* object3dCommon,SpriteCommon* spriteCommon )override;
 	void Update()override;
 	void Finalize()override;
 	void Object3DDraw()override;
@@ -55,8 +55,7 @@ public:
 	//静的メンバ変数
 private:
 	
-	WinApp* winApp = nullptr;
-	DirectXCommon* dxCommon = nullptr;
+	
 	Object3dCommon* object3dCommon = nullptr;
 	SpriteCommon* spriteCommon = nullptr;
 	//--------------------------------------

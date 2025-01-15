@@ -4,6 +4,7 @@
 #include"Object3dCommon.h"
 #include"SpriteCommon.h"
 #include"ImGuiManager.h"
+
 //シーン番号
 enum SCENE{DEBUG,TITLE,STAGE,CLEAR};
 
@@ -16,7 +17,7 @@ protected:
 public:
 
 	//初期化
-	virtual void Initialize(Object3dCommon* object3dCommon, SpriteCommon* spriteCommon, WinApp* winApp, DirectXCommon* dxCommon) = 0;
+	virtual void Initialize(Object3dCommon* object3dCommon, SpriteCommon* spriteCommon) = 0;
 	//更新
 	virtual void Update() = 0;
 	//終了処理

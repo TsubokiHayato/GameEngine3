@@ -6,12 +6,12 @@
 #include "externals/imgui/imgui_impl_win32.h"
 #include "externals/imgui/imgui_impl_dx12.h"
 
-void Sprite::Initialize(SpriteCommon* spriteCommon, WinApp* winApp, DirectXCommon* dxCommon, std::string textureFilePath)
+void Sprite::Initialize(SpriteCommon* spriteCommon,std::string textureFilePath)
 {
+	//情報を受け取る
 	this->spriteCommon = spriteCommon;
-	this->dxCommon_ = dxCommon;
-	this->winApp_ = winApp;
-
+	this->dxCommon_ = spriteCommon->GetDxCommon();
+	this->winApp_ = spriteCommon->GetWinApp();
 	textureFilePath_ = textureFilePath;
 
 

@@ -4,10 +4,7 @@
 void Framework::Initialize()
 {
 
-#pragma region 基盤システムの初期化
-
 	//ウィンドウズアプリケーション
-
 	winApp = new WinApp();
 	winApp->Initialize();
 #ifdef DEBUG
@@ -16,7 +13,6 @@ void Framework::Initialize()
 #endif // _DEBUG
 
 	//DirectX共通部分
-
 	dxCommon = new DirectXCommon();
 	dxCommon->Initialize(winApp);
 
@@ -25,7 +21,6 @@ void Framework::Initialize()
 #ifdef _DEBUG
 
 	//ImGuiの初期化
-
 	imGuiManager = std::make_unique<ImGuiManager>();
 	imGuiManager->Initialize(winApp, dxCommon);
 
@@ -35,65 +30,33 @@ void Framework::Initialize()
 	srvManager->Initialize(dxCommon);
 
 	//スプライト共通部分
-
 	spriteCommon = new SpriteCommon;
-	spriteCommon->Initialize(dxCommon);
-
-
+	spriteCommon->Initialize(winApp,dxCommon);
 
 	//オブジェクト3Dの共通部分
-
 	object3dCommon = new Object3dCommon();
-	object3dCommon->Initialize(dxCommon);
+	object3dCommon->Initialize(winApp,dxCommon);
 
 	//モデル共通部分
-
 	modelCommon = new ModelCommon();
 	modelCommon->Initialize(dxCommon);
 
-
-
-	
-
-#pragma endregion 基盤システムの初期化
-
-
-#pragma region TextureManegerの初期化
 	//テクスチャマネージャーの初期化
 	TextureManager::GetInstance()->Initialize(dxCommon, srvManager);
 
-	
-
-#pragma endregion TextureManegerの初期化
-
-#pragma region ModelManagerの初期化
 	//モデルマネージャーの初期化
 	ModelManager::GetInstance()->initialize(dxCommon);
 
-	
-
-#pragma endregion ModelManagerの初期化
-
-
-#pragma endregion ImGuiManagerの初期化
-
-#pragma region AudioCommonの初期化
 	//オーディオ共通部
 	AudioCommon::GetInstance()->Initialize();
-	
 
-#pragma endregion AudioCommonの初期化
-
-
-#pragma region Inputの初期化
 	//入力初期化
 	Input::GetInstance()->Initialize(winApp);
-#pragma endregion Inputの初期化
-
 
 	//シーンマネージャーの初期化
 	sceneManager = std::make_unique<SceneManager>();
-	sceneManager->Initialize(object3dCommon,spriteCommon,winApp,dxCommon);
+	sceneManager->Initialize(object3dCommon, spriteCommon, winApp, dxCommon);
+
 
 }
 void Framework::Update()
@@ -106,8 +69,8 @@ void Framework::Update()
 	Input::GetInstance()->Update();
 	//シーンマネージャーの更新
 	sceneManager->Update();
-	
-	
+
+
 }
 
 void Framework::Finalize()
@@ -120,7 +83,7 @@ void Framework::Finalize()
 
 	//スプライト共通部分の削除
 	delete spriteCommon;
-	
+
 
 
 	AudioCommon::GetInstance()->Finalize();
@@ -139,8 +102,9 @@ void Framework::Finalize()
 	//DirectX共通部分の削除
 	CloseHandle(dxCommon->GetFenceEvent());
 	delete dxCommon;
-//WindowsAppの削除
-		winApp->Finalize();
+
+	//WindowsAppの削除
+	winApp->Finalize();
 	delete winApp;
 	winApp = nullptr;
 
@@ -164,7 +128,9 @@ void Framework::Run()
 
 void Framework::FrameworkPreDraw()
 {
+	//描画前処理
 	dxCommon->PreDraw();
+	//ImGuiの描画前処理
 	srvManager->PreDraw();
 }
 
@@ -176,7 +142,7 @@ void Framework::FrameworkPostDraw()
 	dxCommon->PostDraw();
 }
 
-void Framework::ImguiPreDraw()
+void Framework::ImGuiPreDraw()
 {
 	//ImGuiの受付開始
 	imGuiManager->Begin();
@@ -186,10 +152,11 @@ void Framework::ImguiPreDraw()
 
 }
 
-void Framework::ImguiPostDraw()
+void Framework::ImGuiPostDraw()
 {
 	//ImGuiの受付終了
 	ImGui::ShowDemoWindow();
+	//ImGuiの終了
 	imGuiManager->End();
 
 }
@@ -198,6 +165,7 @@ void Framework::Object3dCommonDraw()
 {
 	//オブジェクト3Dの描画
 	object3dCommon->DrawSettingsCommon();
+	//シーンマネージャーのオブジェクト3D描画
 	sceneManager->Object3DDraw();
 }
 
@@ -205,5 +173,6 @@ void Framework::SpriteCommonDraw()
 {
 	//スプライトの描画
 	spriteCommon->DrawSettingsCommon();
+	//シーンマネージャーのスプライト描画
 	sceneManager->SpriteDraw();
 }

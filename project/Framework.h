@@ -19,7 +19,7 @@
 class Framework
 {
 public:
-
+	//デストラクタ
 	virtual ~Framework() = default;
 
 	//初期化
@@ -36,11 +36,34 @@ public:
 
 public:
 
+	/// <summary>
+	/// フレームワークの描画前処理
+	/// </summary>
 	void FrameworkPreDraw();
+
+	/// <summary>
+	/// フレームワークの描画後処理
+	/// </summary>
 	void FrameworkPostDraw();
-	void ImguiPreDraw();
-	void ImguiPostDraw();
+
+	/// <summary>
+	/// ImGuiの描画前処理
+	/// </summary>
+	void ImGuiPreDraw();
+
+	/// <summary>
+	/// ImGuiの描画後処理
+	/// </summary>
+	void ImGuiPostDraw();
+
+	/// <summary>
+	///3Dオブジェクトの共通描画処理
+	/// </summary>
 	void Object3dCommonDraw();
+
+	/// <summary>
+	/// スプライトの共通描画処理
+	/// </summary>
 	void SpriteCommonDraw();
 
 public:
@@ -64,8 +87,11 @@ protected:
 	Object3dCommon* object3dCommon = nullptr;
 	//モデル共通部分
 	ModelCommon* modelCommon = nullptr;
+	//シェーダーリソースビューマネージャ
 	SrvManager* srvManager = nullptr;
+	//ImGuiマネージャ
 	std::unique_ptr<ImGuiManager> imGuiManager = nullptr;
+	//シーンマネージャー
 	std::unique_ptr<SceneManager> sceneManager = nullptr;
 };
 
