@@ -8,7 +8,7 @@ void DebugScene::Initialize(Object3dCommon* object3dCommon, SpriteCommon* sprite
 
 	this->object3dCommon = object3dCommon;
 	this->spriteCommon = spriteCommon;
-	
+
 	//テクスチャマネージャに追加する画像ハンドル
 	std::string uvCheckerTextureHandle = "Resources/uvChecker.png";
 	std::string monsterBallTextureHandle = "Resources/monsterBall.png";
@@ -50,11 +50,11 @@ void DebugScene::Initialize(Object3dCommon* object3dCommon, SpriteCommon* sprite
 		//もしfor文のiが偶数なら
 		if (i % 2 == 0) {
 			//モンスターボールを表示させる
-			sprite->Initialize(this->spriteCommon,monsterBallTextureHandle);
+			sprite->Initialize(this->spriteCommon, monsterBallTextureHandle);
 		}
 		else {
 			//uvCheckerを表示させる
-			sprite->Initialize(this->spriteCommon,uvCheckerTextureHandle);
+			sprite->Initialize(this->spriteCommon, uvCheckerTextureHandle);
 		}
 
 
@@ -95,7 +95,7 @@ void DebugScene::Initialize(Object3dCommon* object3dCommon, SpriteCommon* sprite
 
 
 
-	
+
 	object3d->SetModel("plane.obj");
 
 	////////////////////////////////////////////////////////////////////////
@@ -216,9 +216,9 @@ void DebugScene::Finalize()
 	sprites.clear(); // ポインタをクリア
 
 
-	
 
-	
+
+
 #pragma endregion AllRelease
 
 
@@ -250,7 +250,7 @@ void DebugScene::ImGuiDraw()
 
 #ifdef _DEBUG
 
-	
+
 
 	ImGui::Begin("camera");
 	ImGui::DragFloat3("Position", &cameraPosition.x);
@@ -263,16 +263,15 @@ void DebugScene::ImGuiDraw()
 	for (Sprite* sprite : sprites) {
 		if (sprite) {
 			ImGui::Begin("Sprite");
-			ImGui::SetWindowSize({ 500,100 });
 
 			Vector2 spritePosition = sprite->GetPosition();
 			ImGui::SliderFloat2("Position", &spritePosition.x, 0.0f, 1920.0f, "%.1f");
 			sprite->SetPosition(spritePosition);
 
-			/*	ImGui::Checkbox("isFlipX", &isFlipX_);
-				ImGui::Checkbox("isFlipY", &isFlipY_);
-				ImGui::Checkbox("isAdjustTextureSize", &isAdjustTextureSize);
-				ImGui::DragFloat2("textureLeftTop", &textureLeftTop.x);*/
+			ImGui::Checkbox("isFlipX", &isFlipX_);
+			ImGui::Checkbox("isFlipY", &isFlipY_);
+			ImGui::Checkbox("isAdjustTextureSize", &isAdjustTextureSize);
+			ImGui::DragFloat2("textureLeftTop", &textureLeftTop.x);
 			ImGui::End();
 		}
 	}
@@ -330,7 +329,7 @@ void DebugScene::ImGuiDraw()
 
 	ImGui::End();
 
-	
+
 #endif // DEBUG
 
 }
