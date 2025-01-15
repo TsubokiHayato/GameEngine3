@@ -186,43 +186,17 @@ void DebugScene::Update()
 
 void DebugScene::Finalize()
 {
-
-
-
-#pragma region AllRelease
-
-
-
-	//リソースリークチェック
-
-
-
 	//カメラの削除
 	delete camera;
-
-
-
-
 	for (Sprite* sprite : sprites) {
 		if (sprite) {
 			delete sprite; // メモリを解放
 		}
 	}
-
-
 	delete object3d;
-
 	delete object3d2;
+
 	sprites.clear(); // ポインタをクリア
-
-
-
-
-
-#pragma endregion AllRelease
-
-
-
 }
 
 void DebugScene::Object3DDraw()
@@ -248,7 +222,7 @@ void DebugScene::ImGuiDraw()
 	ImGui::End();
 
 
-#ifdef _DEBUG
+
 
 
 
@@ -328,8 +302,5 @@ void DebugScene::ImGuiDraw()
 	audio->SetPlaybackSpeed(speed);
 
 	ImGui::End();
-
-
-#endif // DEBUG
 
 }

@@ -11,9 +11,8 @@
 #include"AudioCommon.h"
 #ifdef _DEBUG
 #include"ImGuiManager.h"
-#include"SceneManager.h"
 #endif // DEBUG
-
+#include"SceneManager.h"
 #include"Input.h"
 
 class Framework

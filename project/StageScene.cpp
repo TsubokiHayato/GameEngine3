@@ -22,4 +22,7 @@ void StageScene::SpriteDraw()
 
 void StageScene::ImGuiDraw()
 {
+	ImGui::Begin("StageScene");
+	ImGui::Text("Hello, StageScene!");
+	ImGui::End();
 }

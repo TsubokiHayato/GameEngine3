@@ -22,4 +22,7 @@ void TitleScene::SpriteDraw()
 
 void TitleScene::ImGuiDraw()
 {
+	ImGui::Begin("TitleScene");
+	ImGui::Text("Hello, TitleScene!");
+	ImGui::End();
 }

@@ -136,8 +136,10 @@ void Framework::FrameworkPreDraw()
 
 void Framework::FrameworkPostDraw()
 {
+#ifdef _DEBUG
 	//ImGuiの描画
 	imGuiManager->Draw();
+#endif // DEBUG
 	//描画
 	dxCommon->PostDraw();
 }

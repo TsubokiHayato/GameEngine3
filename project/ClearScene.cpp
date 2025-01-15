@@ -1,6 +1,4 @@
 #include "ClearScene.h"
-
-
 void ClearScene::Initialize(Object3dCommon* object3dCommon, SpriteCommon* spriteCommon)
 {
 }
@@ -23,4 +21,7 @@ void ClearScene::SpriteDraw()
 
 void ClearScene::ImGuiDraw()
 {
+	ImGui::Begin("ClearScene");
+	ImGui::Text("Hello, ClearScene!");
+	ImGui::End();
 }

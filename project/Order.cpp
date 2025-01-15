@@ -10,10 +10,13 @@ void Order::Update()
 {
 	//更新処理
 	Framework::Update();
+#ifdef _DEBUG
 	//ImGuiの受付開始
 	Framework::ImGuiPreDraw();
 	//ImGuiの描画
 	Framework::ImGuiPostDraw();
+#endif // DEBUG
+
 }
 
 void Order::Finalize()
