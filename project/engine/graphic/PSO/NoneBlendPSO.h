@@ -1,27 +1,9 @@
 #pragma once
+#pragma once
 #include"DirectXCommon.h"
-class PSO
+#include"BlendMode.h"
+class NoneBlendPSO
 {
-private:
-	//ブレンドモード
-	enum BlendMode
-	{
-		//!<ブレンドなし
-		kBlendModeNone,
-		//!<通常アルファブレンド
-		kBlendModeNormal,
-		//!<加算アルファブレンド
-		kBlendModeAdd,
-		//!<減算アルファブレンド
-		kBlendModeSubtract,
-		//!<乗算アルファブレンド
-		kBlendModeMultily,
-		//!<スクリーン
-		kBlendModeScreen,
-		//利用してはいけない
-		kCountBlendMode,
-	};
-
 public:
 	/// <summary>
 	/// 初期化
@@ -33,18 +15,6 @@ public:
 	/// 共通描画設定
 	/// </summary>
 	void DrawSettingsCommon();
-
-public:
-	/// <summary>
-	/// ブレンドモードの設定
-	/// </summary>
-	/// <param name="blendMode">ブレンドモード</param>
-	void SetBlendMode(BlendMode blendMode) { this->blendMode = blendMode; }
-	/// <summary>
-	/// ブレンドモードの取得
-	/// </summary>
-	/// <returns>ブレンドモード</returns>
-	BlendMode GetBlendMode()const { return blendMode; }
 
 private:
 	/*---------------------------------------------------
@@ -117,7 +87,7 @@ private:
 	Microsoft::WRL::ComPtr <ID3D12GraphicsCommandList> commandList;
 
 
-	BlendMode blendMode = kBlendModeNone;
+	BlendMode blendMode = kBlendModeNormal;
 
 };
 
