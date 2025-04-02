@@ -4,16 +4,15 @@
 #include"ModelManager.h"
 #include"TextureManager.h"
 #include"BlendMode.h"
-void DebugScene::Initialize(Object3dCommon* object3dCommon, SpriteCommon* spriteCommon, ParticleCommon* particleCommon, WinApp* winApp, DirectXCommon* dxCommon)
-{
+void DebugScene::Initialize(Object3dCommon* object3dCommon, SpriteCommon* spriteCommon, ParticleCommon* particleCommon, WinApp* winApp, DirectXCommon* dxCommon) {
 
 	this->object3dCommon = object3dCommon;
 	this->spriteCommon = spriteCommon;
 	this->winApp = winApp;
 	this->dxCommon = dxCommon;
 	//テクスチャマネージャに追加する画像ハンドル
-	std::string uvCheckerTextureHandle = "Resources/uvChecker.png";
-	std::string monsterBallTextureHandle = "Resources/monsterBall.png";
+	std::string uvCheckerTextureHandle = "uvChecker.png";
+	std::string monsterBallTextureHandle = "monsterBall.png";
 
 	//画像ハンドルをテクスチャマネージャに挿入する
 	TextureManager::GetInstance()->LoadTexture(uvCheckerTextureHandle);
@@ -24,7 +23,7 @@ void DebugScene::Initialize(Object3dCommon* object3dCommon, SpriteCommon* sprite
 	//モデルファイルパス
 	const std::string modelFileNamePath = "sphere.obj";
 	//モデルファイルパス2
-	const std::string modelFileNamePath2 = "barrier.obj";
+	const std::string modelFileNamePath2 = "terrain.obj";
 
 	ModelManager::GetInstance()->LoadModel(modelFileNamePath);
 	ModelManager::GetInstance()->LoadModel(modelFileNamePath2);
@@ -53,8 +52,7 @@ void DebugScene::Initialize(Object3dCommon* object3dCommon, SpriteCommon* sprite
 		if (i % 2 == 0) {
 			//モンスターボールを表示させる
 			sprite->Initialize(this->spriteCommon, monsterBallTextureHandle);
-		}
-		else {
+		} else {
 			//uvCheckerを表示させる
 			sprite->Initialize(this->spriteCommon, uvCheckerTextureHandle);
 		}
@@ -124,8 +122,7 @@ void DebugScene::Initialize(Object3dCommon* object3dCommon, SpriteCommon* sprite
 #pragma endregion cameraの初期化
 }
 
-void DebugScene::Update()
-{
+void DebugScene::Update() {
 	/*--------------
 	   ゲームの処理
 	--------------*/
@@ -134,11 +131,7 @@ void DebugScene::Update()
 	camera->setScale(cameraScale);
 	camera->Update();
 
-	modelRotation.y += 0.01f;
 
-	modelRotation2.x -= 0.01f;
-	//modelRotation2.y -= 0.01f;
-	modelRotation2.z -= 0.01f;
 
 	//オブジェクト3Dの更新
 	object3d->Update();
@@ -182,8 +175,7 @@ void DebugScene::Update()
 
 }
 
-void DebugScene::Finalize()
-{
+void DebugScene::Finalize() {
 
 	for (Sprite* sprite : sprites) {
 		if (sprite) {
@@ -194,14 +186,12 @@ void DebugScene::Finalize()
 
 }
 
-void DebugScene::Object3DDraw()
-{
+void DebugScene::Object3DDraw() {
 	object3d->Draw();
 	object3d2->Draw();
 }
 
-void DebugScene::SpriteDraw()
-{
+void DebugScene::SpriteDraw() {
 	for (Sprite* sprite : sprites) {
 		if (sprite) {
 			sprite->Draw();
@@ -209,139 +199,212 @@ void DebugScene::SpriteDraw()
 	}
 }
 
-void DebugScene::ImGuiDraw()
-{
-    ImGui::Begin("DebugScene");
-    ImGui::Text("Hello, DebugScene!");
-    ImGui::End();
+void DebugScene::ImGuiDraw() {
+	ImGui::Begin("DebugScene");
+	ImGui::Text("Hello, DebugScene!");
+	ImGui::End();
 
 #ifdef _DEBUG
 
-    ImGui::Begin("camera");
-    ImGui::DragFloat3("Position", &cameraPosition.x);
-    ImGui::DragFloat3("Rotation", &cameraRotation.x);
-    ImGui::DragFloat3("Scale", &cameraScale.x);
-    ImGui::End();
+	ImGui::Begin("camera");
+	ImGui::DragFloat3("Position", &cameraPosition.x, 0.1f);
+	ImGui::DragFloat3("Rotation", &cameraRotation.x, 0.1f);
+	ImGui::DragFloat3("Scale", &cameraScale.x, 0.1f);
+	ImGui::End();
 
-    //スプライトのImGui
-    for (Sprite* sprite : sprites) {
-        if (sprite) {
-            ImGui::Begin("Sprite");
-            
+	//スプライトのImGui
+	for (Sprite* sprite : sprites) {
+		if (sprite) {
+			ImGui::Begin("Sprite");
 
-            Vector2 spritePosition = sprite->GetPosition();
-            ImGui::SliderFloat2("Position", &spritePosition.x, 0.0f, 1920.0f, "%.1f");
-            sprite->SetPosition(spritePosition);
 
-            ImGui::Checkbox("isFlipX", &isFlipX_);
-            ImGui::Checkbox("isFlipY", &isFlipY_);
-            ImGui::Checkbox("isAdjustTextureSize", &isAdjustTextureSize);
-            ImGui::DragFloat2("textureLeftTop", &textureLeftTop.x);
-			
+			Vector2 spritePosition = sprite->GetPosition();
+			ImGui::SliderFloat2("Position", &spritePosition.x, 0.0f, 1920.0f, "%.1f");
+			sprite->SetPosition(spritePosition);
+
+			ImGui::Checkbox("isFlipX", &isFlipX_);
+			ImGui::Checkbox("isFlipY", &isFlipY_);
+			ImGui::Checkbox("isAdjustTextureSize", &isAdjustTextureSize);
+			ImGui::DragFloat2("textureLeftTop", &textureLeftTop.x);
+
 			Vector4 color = sprite->GetColor();
 			ImGui::ColorEdit4("Color", &color.x);
 			sprite->SetColor(color);
 
-            ImGui::End();
-        }
-    }
-    ImGui::Begin("Object3D");
-    ImGui::DragFloat3("Position", &modelPosition.x);
-    ImGui::DragFloat3("Rotation", &modelRotation.x);
-    ImGui::DragFloat3("Scale", &modelScale.x);
+			ImGui::End();
+		}
+	}
+	ImGui::Begin("Object3D");
+	ImGui::DragFloat3("Position", &modelPosition.x);
+	ImGui::DragFloat3("Rotation", &modelRotation.x);
+	ImGui::DragFloat3("Scale", &modelScale.x);
 
 
 	//色
-    Vector4 color = object3d->GetModelColor();
-    ImGui::ColorEdit4("Color", &color.x);
-    object3d->SetModelColor(color);
+	Vector4 color = object3d->GetModelColor();
+	ImGui::ColorEdit4("Color", &color.x);
+	object3d->SetModelColor(color);
 
-	ImGui::Text("Light");
+	ImGui::End();
+
+	ImGui::Begin("Light");
+	//光源のタイプ
+	lightType = object3d->GetLightType();
+	ImGui::SliderInt("LightType", &lightType, 0, 4);
+	object3d->SetLightType(lightType);
+	object3d2->SetLightType(lightType);
+
+
 	//光沢度
-	static float shininess = object3d->GetLightShininess();
-	ImGui::DragFloat("Shininess", &shininess,0.1f);
+	shininess = object3d->GetLightShininess();
+	ImGui::DragFloat("Shininess", &shininess);
 	object3d->SetLightShininess(shininess);
+	object3d2->SetLightShininess(shininess);
 
 	//光源の色
-	Vector4 lightColor = object3d->GetLightColor();
+	lightColor = object3d->GetLightColor();
 	ImGui::ColorEdit4("LightColor", &lightColor.x);
 	object3d->SetLightColor(lightColor);
+	object3d2->SetLightColor(lightColor);
 
 	//光源の方向
-	Vector3 lightDirection = object3d->GetLightDirection();
-	ImGui::DragFloat3("LightDirection", &lightDirection.x,0.1f);
+	lightDirection = object3d->GetLightDirection();
+	ImGui::DragFloat3("LightDirection", &lightDirection.x, 0.1f);
 	object3d->SetLightDirection(lightDirection);
+	object3d2->SetLightDirection(lightDirection);
 
 	//光源の強さ
-	float lightIntensity = object3d->GetLightIntensity();
-	ImGui::DragFloat("LightIntensity", &lightIntensity, 0.1f);
-	object3d->SetLightIntensity(lightIntensity);
-
-	//光源のタイプ
-	int lightType = object3d->GetLightType();
-	ImGui::SliderInt("LightType", &lightType, 0, 2);
-	object3d->SetLightType(lightType);
+	intensity = object3d->GetLightIntensity();
+	ImGui::DragFloat("LightIntensity", &intensity, 0.1f);
+	object3d->SetLightIntensity(intensity);
+	object3d2->SetLightIntensity(intensity);
 
 
-    ImGui::End();
 
-    ImGui::Begin("Object3D2");
-    ImGui::DragFloat3("Position", &modelPosition2.x);
-    ImGui::DragFloat3("Rotation", &modelRotation2.x);
-    ImGui::DragFloat3("Scale", &modelScale2.x);
 
-	Vector4 color2 = object3d2->GetModelColor();
-	ImGui::ColorEdit4("Color", &color2.x);
-	object3d2->SetModelColor(color2);
+	ImGui::Text("PointLight");
+	//光源の色
+	pointLightColor = object3d->GetPointLightColor();
+	ImGui::ColorEdit4("PointLightColor", &pointLightColor.x);
+	object3d->SetPointLightColor(pointLightColor);
+	object3d2->SetPointLightColor(pointLightColor);
 
-    ImGui::End();
+	//光源の位置
+	pointLightPosition = object3d->GetPointLightPosition();
+	ImGui::DragFloat3("PointLightPosition", &pointLightPosition.x, 0.1f);
+	object3d->SetPointLightPosition(pointLightPosition);
+	object3d2->SetPointLightPosition(pointLightPosition);
 
-    static float scratchPosition = 0.0f;
-    static bool isScratching = false;
-    static float lastScratchPosition = 0.0f;
-    //再生時間
-    float duration = audio->GetSoundDuration();
+	//光源の強さ
+	pointLightIntensity = object3d->GetPointLightIntensity();
+	ImGui::DragFloat("PointLightIntensity", &pointLightIntensity, 0.1f);
+	object3d->SetPointLightIntensity(pointLightIntensity);
+	object3d2->SetPointLightIntensity(pointLightIntensity);
+	ImGui::End();
 
-    ImGui::Begin("Audio Control");
+	ImGui::Begin("SpotLight");
+	//光源の色
+	Vector4 spotLightColor;
+	object3d->GetSpotLightColor(spotLightColor);
+	ImGui::ColorEdit4("SpotLightColor", &spotLightColor.x);
+	object3d->SetSpotLightColor(spotLightColor);
+	object3d2->SetSpotLightColor(spotLightColor);
 
-    if (ImGui::Button("Play")) {
-        audio->Play(false);
-    }
-    if (ImGui::Button("Stop")) {
-        audio->Stop();
-    }
-    if (ImGui::Button("Pause")) {
-        audio->Pause();
-    }
-    if (ImGui::Button("Resume")) {
-        audio->Resume();
-    }
-    //volume
-    static float volume = 0.1f;
-    ImGui::SliderFloat("Volume", &volume, 0.0f, 1.0f);
-    audio->SetVolume(volume);
+	//光源の位置
+	Vector3 spotLightPosition;
+	object3d->GetSpotLightPosition(spotLightPosition);
+	ImGui::DragFloat3("SpotLightPosition", &spotLightPosition.x, 0.1f);
+	object3d->SetSpotLightPosition(spotLightPosition);
+	object3d2->SetSpotLightPosition(spotLightPosition);
 
-    // 再生バー
-    static float playbackPosition = 0.0f;
-    //再生位置の取得
-    playbackPosition = audio->GetPlaybackPosition();
-    //再生位置の視認
-    ImGui::SliderFloat("Playback Position", &playbackPosition, 0.0f, duration);
-    //audio->SetPlaybackPosition(playbackPosition);
+	//光源の方向
+	Vector3 spotLightDirection;
+	object3d->GetSpotLightDirection(spotLightDirection);
+	ImGui::DragFloat3("SpotLightDirection", &spotLightDirection.x, 0.1f);
+	object3d->SetSpotLightDirection(spotLightDirection);
+	object3d2->SetSpotLightDirection(spotLightDirection);
 
-    //speed
-    static float speed = 1.0f;
-    ImGui::SliderFloat("Speed", &speed, 0.0f, 2.0f);
-    audio->SetPlaybackSpeed(speed);
+	//光源の強さ
+	float spotLightIntensity = object3d->GetSpotLightIntensity();
+	ImGui::DragFloat("SpotLightIntensity", &spotLightIntensity, 0.1f);
+	object3d->SetSpotLightIntensity(spotLightIntensity);
+	object3d2->SetSpotLightIntensity(spotLightIntensity);
+		
+	//光源の距離
+	float spotLightDistance = object3d->GetSpotLightDistance();
+	ImGui::DragFloat("SpotLightDistance", &spotLightDistance, 0.1f);
+	object3d->SetSpotLightDistance(spotLightDistance);
+	object3d2->SetSpotLightDistance(spotLightDistance);
 
-    ImGui::End();
+	//光源の減衰
+	float spotLightDecay = object3d->GetSpotLightDecay();
+	ImGui::DragFloat("SpotLightDecay", &spotLightDecay, 0.1f);
+	object3d->SetSpotLightDecay(spotLightDecay);
+	object3d2->SetSpotLightDecay(spotLightDecay);
+
+	//光源の角度
+	float spotLightCosAngle = object3d->GetSpotLightCosAngle();
+	ImGui::DragFloat("SpotLightCosAngle", &spotLightCosAngle, 0.1f);
+	object3d->SetSpotLightCosAngle(spotLightCosAngle);
+	object3d2->SetSpotLightCosAngle(spotLightCosAngle);
+
+	ImGui::End();
+
+
+	ImGui::Begin("Object3D2");
+	ImGui::DragFloat3("Position", &modelPosition2.x);
+	ImGui::DragFloat3("Rotation", &modelRotation2.x);
+	ImGui::DragFloat3("Scale", &modelScale2.x);
+
+
+	object3d2->SetModelColor(color);
+	ImGui::End();
+
+	static float scratchPosition = 0.0f;
+	static bool isScratching = false;
+	static float lastScratchPosition = 0.0f;
+	//再生時間
+	float duration = audio->GetSoundDuration();
+
+	ImGui::Begin("Audio Control");
+
+	if (ImGui::Button("Play")) {
+		audio->Play(false);
+	}
+	if (ImGui::Button("Stop")) {
+		audio->Stop();
+	}
+	if (ImGui::Button("Pause")) {
+		audio->Pause();
+	}
+	if (ImGui::Button("Resume")) {
+		audio->Resume();
+	}
+	//volume
+	static float volume = 0.1f;
+	ImGui::SliderFloat("Volume", &volume, 0.0f, 1.0f);
+	audio->SetVolume(volume);
+
+	// 再生バー
+	static float playbackPosition = 0.0f;
+	//再生位置の取得
+	playbackPosition = audio->GetPlaybackPosition();
+	//再生位置の視認
+	ImGui::SliderFloat("Playback Position", &playbackPosition, 0.0f, duration);
+	//audio->SetPlaybackPosition(playbackPosition);
+
+	//speed
+	static float speed = 1.0f;
+	ImGui::SliderFloat("Speed", &speed, 0.0f, 2.0f);
+	audio->SetPlaybackSpeed(speed);
+
+	ImGui::End();
 
 
 #endif // DEBUG
 
 }
 
-void DebugScene::ParticleDraw()
-{
+void DebugScene::ParticleDraw() {
 
 }
